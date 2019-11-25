@@ -13,7 +13,7 @@ import javafx.stage.Stage;
 
 /**
  *
- * @author filip
+ * @author filip and Cecilia
  */
 public class Winpamp extends Application {
     
