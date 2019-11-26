@@ -58,24 +58,24 @@
          </font></Label>
       <ImageView fitHeight="27.0" fitWidth="27.0" layoutX="90.0" layoutY="31.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../../play-button-512.png" />
+            <Image url="https://cdn0.iconfinder.com/data/icons/pack-web-app-game/512/play-button-512.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="25.0" fitWidth="20.0" layoutX="121.0" layoutY="48.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="25.0" fitWidth="20.0" layoutX="62.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../../fast-forward3-576310.png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="25.0" fitWidth="20.0" layoutX="63.0" layoutY="48.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../../fast-backward-3-576310.png" />
+            <Image url="https://cdn.iconscout.com/icon/premium/png-256-thumb/fast-backward-3-576310.png" />
          </image>
       </ImageView>
       <ImageView fitHeight="25.0" fitWidth="20.0" layoutX="53.0" layoutY="69.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../../speaker-icon-animated-gif-png-sound-computer-icons-7430d1e73d1d992a.jpg" />
+            <Image url="https://middle.pngfans.com/20190509/er/speaker-icon-animated-gif-png-sound-computer-icons-7430d1e73d1d992a.jpg" />
          </image>
       </ImageView>
       <Slider layoutX="77.0" layoutY="72.0" />
+      <ImageView fitHeight="20.0" fitWidth="37.0" layoutX="123.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true" rotate="-180.0">
+         <image>
+            <Image url="https://cdn.iconscout.com/icon/premium/png-256-thumb/fast-backward-3-576310.png" />
+         </image>
+      </ImageView>
     </children>
 </AnchorPane>
