@@ -31,8 +31,8 @@
       <Label layoutX="561.0" layoutY="54.0" text="Filter" />
       <TextField layoutX="604.0" layoutY="50.0" prefHeight="27.0" prefWidth="81.0" />
       <Button layoutX="691.0" layoutY="51.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="61.0" text="Search" />
-      <Button layoutX="455.0" layoutY="538.0" mnemonicParsing="false" text="New" />
-      <Button layoutX="508.0" layoutY="538.0" mnemonicParsing="false" text="Edit" />
+      <Button fx:id="NewSong" layoutX="455.0" layoutY="538.0" mnemonicParsing="false" onAction="#SongShowNewEdit" text="New" />
+      <Button fx:id="EditSong" layoutX="508.0" layoutY="538.0" mnemonicParsing="false" onAction="#SongShowNewEdit" text="Edit" />
       <Button layoutX="556.0" layoutY="538.0" mnemonicParsing="false" text="Delete" />
       <Button layoutX="702.0" layoutY="538.0" mnemonicParsing="false" text="Close" />
       <Button layoutX="386.0" layoutY="138.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="41.0" text="&lt;--" />

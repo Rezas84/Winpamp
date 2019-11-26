@@ -34,6 +34,10 @@ public class FXMLDocumentController implements Initializable {
     private Button NewPlaylist;
     @FXML
     private Button EditPlaylist;
+    @FXML
+    private Button NewSong;
+    @FXML
+    private Button EditSong;
 
     @FXML
     private void ShowDelete(ActionEvent event) throws IOException {
@@ -61,5 +65,13 @@ public class FXMLDocumentController implements Initializable {
         // TODO
     }    
 
-       
+    @FXML
+    private void SongShowNewEdit(ActionEvent event) throws IOException {
+    
+Parent blahhh = FXMLLoader.load(getClass().getResource("/winpamp/gui/NewEditSong.fxml"));
+            Scene sceneee = new Scene(blahhh);
+            Stage SSNE = new Stage();
+            SSNE.setScene(sceneee);
+            SSNE.show();    
+    }
 }
