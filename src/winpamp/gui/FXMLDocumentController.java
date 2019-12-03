@@ -5,7 +5,6 @@
  */
 package winpamp.gui;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -20,11 +19,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.Slider;
-import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -54,10 +48,6 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private Button EditPlaylist;
     @FXML
-    private ImageView playId;
-    @FXML
-    private Slider volumeBar;
-    private MediaPlayer player;
     private Button NewSong;
     @FXML
     private Button EditSong;
@@ -95,10 +85,6 @@ public class FXMLDocumentController implements Initializable {
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-
- 
-       
-
        TitleC.setCellValueFactory(
             new PropertyValueFactory("name"));
         ArtistC.setCellValueFactory(
@@ -136,4 +122,3 @@ Parent blahhh = FXMLLoader.load(getClass().getResource("/winpamp/gui/NewEditSong
     
     
 }
-
