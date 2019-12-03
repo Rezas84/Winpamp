@@ -34,7 +34,7 @@ public class NewEditSongController implements Initializable {
     }    
 
    @FXML
-    private TextField SongName;
+    private TextField SongTitle;
     
    @FXML
    private TextField SongArtist;
@@ -48,16 +48,22 @@ public class NewEditSongController implements Initializable {
    @FXML
    private TextField SongFileLocation;
     
- //   private String songName = SongName.getText();
- //   private String songArtist = SongArtist.getText();
- //   private String songCategory = (String) SongCategory.getValue();
- //   private String songTime = SongTime.getText();
- //   private String songFileLocation = SongFileLocation.getText();
+   private String songName;
+   private String songArtist;
+   private String songCategory;
+   private String songTime;
+   private String songFileLocation;
     
     @FXML
     private void SaveEditSong(ActionEvent event) {
-
-     //  winpamplogic.EditSong(songName, songArtist, songCategory, songTime, songFileLocation );
+      songName = SongTitle.getText();
+      songArtist = SongArtist.getText();
+      songCategory = (String) SongCategory.getValue();
+      songTime = SongTime.getText();
+      songFileLocation = SongFileLocation.getText();
+        
+        
+     winpamplogic.EditSong(songName, songArtist, songCategory, songTime, songFileLocation );
     }
     
 

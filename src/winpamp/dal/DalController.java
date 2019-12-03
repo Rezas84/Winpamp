@@ -50,13 +50,13 @@ public class DalController {
        
         
         try(Connection con = ds.getConnection()){
-            String sqlIf = "UPDATE FROM ALLSONGS SET name = ?, artist = ?, category = ?, time = ? WHERE file = ?";
+            String sqlIf = "UPDATE FROM ALLSONGS SET name = ?, artist = ?, category = ?, time = ? WHERE";
             PreparedStatement pstmt = con.prepareStatement(sqlIf);
             pstmt.setString(1, name);
             pstmt.setString(2, artist);
             pstmt.setString(3, category);
             pstmt.setString(4, time);
-            pstmt.setString(5, file);
+         //   pstmt.setString(5, file);
             pstmt.execute();
 
         } catch (SQLException ex) {
