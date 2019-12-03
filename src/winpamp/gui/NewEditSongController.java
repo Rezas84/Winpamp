@@ -5,7 +5,7 @@
  */
 package winpamp.gui;
 
-import java.awt.TextField;
+
 import winpamp.bll.WinpampManager;
 
 import java.net.URL;
@@ -14,7 +14,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ChoiceBox;
-
+import javafx.scene.control.TextField;
 /**
  * FXML Controller class
  *
@@ -25,37 +25,39 @@ public class NewEditSongController implements Initializable {
     
     
     private WinpampManager winpamplogic = new WinpampManager(); 
+   
+  
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
     }    
 
-    @FXML
+   @FXML
     private TextField SongName;
     
-    @FXML
-    private TextField SongArtist;
-        
-    @FXML
-    private ChoiceBox SongCategory;    
+   @FXML
+   private TextField SongArtist;
+       
+   @FXML
+   private ChoiceBox SongCategory;    
+  
+   @FXML
+  private TextField SongTime;
+   
+   @FXML
+   private TextField SongFileLocation;
+    
+ //   private String songName = SongName.getText();
+ //   private String songArtist = SongArtist.getText();
+ //   private String songCategory = (String) SongCategory.getValue();
+ //   private String songTime = SongTime.getText();
+ //   private String songFileLocation = SongFileLocation.getText();
     
     @FXML
-    private TextField SongTime;
-    
-    @FXML
-    private TextField SongFileLocation;
-    
-    private String songName = SongName.getText();
-    private String songArtist = SongArtist.getText();
-    private String songCategory = (String) SongCategory.getValue();
-    private String songTime = SongTime.getText();
-    private String songFileLocation = SongFileLocation.getText();
-    
-    @FXML
-    private void EditSong(ActionEvent event) {
+    private void SaveEditSong(ActionEvent event) {
 
-        winpamplogic.EditSong(songName, songArtist, songCategory, songTime, songFileLocation );
+     //  winpamplogic.EditSong(songName, songArtist, songCategory, songTime, songFileLocation );
     }
     
 

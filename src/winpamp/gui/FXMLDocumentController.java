@@ -8,6 +8,8 @@ package winpamp.gui;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -104,13 +106,17 @@ public class FXMLDocumentController implements Initializable {
           }    
 
     @FXML
-    private void SongShowNewEdit(ActionEvent event) throws IOException {
+    private void SongShowNewEdit(ActionEvent event)  {
     
-Parent blahhh = FXMLLoader.load(getClass().getResource("/winpamp/gui/NewEditSong.fxml"));
+        try {
+            Parent blahhh = FXMLLoader.load(getClass().getResource("/winpamp/gui/NewEditSong.fxml"));
             Scene sceneee = new Scene(blahhh);
             Stage SSNE = new Stage();
             SSNE.setScene(sceneee);
             SSNE.show();    
+        } catch (IOException ex) {
+            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
    
