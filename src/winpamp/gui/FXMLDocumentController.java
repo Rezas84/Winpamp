@@ -5,6 +5,7 @@
  */
 package winpamp.gui;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -17,6 +18,11 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.Slider;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 
 /**
@@ -34,6 +40,11 @@ public class FXMLDocumentController implements Initializable {
     private Button NewPlaylist;
     @FXML
     private Button EditPlaylist;
+    @FXML
+    private ImageView playId;
+    @FXML
+    private Slider volumeBar;
+    private MediaPlayer player;
 
     @FXML
     private void ShowDelete(ActionEvent event) throws IOException {
@@ -61,5 +72,24 @@ public class FXMLDocumentController implements Initializable {
         // TODO
     }    
 
+    @FXML
+    private void playSong(MouseEvent event) {
+        String bip = "m.mp3";
+        Media hit = new Media(new File(bip).toURI().toString());
+        player = new MediaPlayer(hit);
+        player.setAutoPlay(true);
+        if (player.getStatus() == MediaPlayer.Status.PLAYING) {
+            player.pause();
+        } else {
+            player.setVolume(.5);
+            player.play();
+        }
+    }
+
+    @FXML
+    private void changeVolume(MouseEvent event) {
+        player.setVolume(volumeBar.getValue() / 100);
+    }
+    }
+
        
-}
