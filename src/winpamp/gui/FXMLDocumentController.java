@@ -24,6 +24,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import winpamp.be.Song;
+import winpamp.bll.WinpampManager;
 import winpamp.dal.DalController;
 
 /**
@@ -31,9 +32,12 @@ import winpamp.dal.DalController;
  * @author filip
  */
 public class FXMLDocumentController implements Initializable {
-    private DalController dl = new DalController();
-    ObservableList<Song> sList
-            = FXCollections.observableArrayList(dl.getAllSongs());
+    
+    WinpampManager wm = new WinpampManager();
+    DalController dl = new DalController();
+     ObservableList<Song> mList
+            = wm.GetsList();
+    
     @FXML
     private Label label;
     
@@ -77,7 +81,6 @@ public class FXMLDocumentController implements Initializable {
             SNE.setScene(scenee);
             SNE.show();        
     }
-
     
     
     @Override
@@ -90,8 +93,15 @@ public class FXMLDocumentController implements Initializable {
             new PropertyValueFactory("category"));
        TimeC.setCellValueFactory(
             new PropertyValueFactory("time"));
-        songsList.setItems(sList); 
-    }    
+       songsList.setItems(wm.GetsList());
+       
+       
+     //  if(!mList.equals(wm.GetsList()))
+     //  {
+     // songsList.setItems(wm.GetsList());  experimental auto update
+     //  mList = wm.GetsList();
+     //  }
+          }    
 
     @FXML
     private void SongShowNewEdit(ActionEvent event) throws IOException {
