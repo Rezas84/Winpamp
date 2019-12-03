@@ -72,7 +72,7 @@ public class FXMLDocumentController implements Initializable {
         // TODO
     }    
 
-    @FXML
+   @FXML
     private void playSong(MouseEvent event) {
         String bip = "m.mp3";
         Media hit = new Media(new File(bip).toURI().toString());
