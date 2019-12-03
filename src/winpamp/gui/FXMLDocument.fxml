@@ -15,12 +15,12 @@
 <AnchorPane id="AnchorPane" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="winpamp.gui.FXMLDocumentController">
     <children>
         <Label fx:id="label" layoutX="126" layoutY="120" minHeight="16" minWidth="69" />
-      <TableView layoutX="454.0" layoutY="129.0" prefHeight="392.0" prefWidth="300.0">
+      <TableView fx:id="songsList" layoutX="454.0" layoutY="129.0" prefHeight="392.0" prefWidth="300.0">
         <columns>
-          <TableColumn prefWidth="75.0" text="Title" />
-          <TableColumn prefWidth="75.0" text="Artist" />
-            <TableColumn prefWidth="75.0" text="Category" />
-            <TableColumn prefWidth="75.0" text="Time" />
+          <TableColumn fx:id="TitleC" prefWidth="75.0" text="Title" />
+          <TableColumn fx:id="ArtistC" prefWidth="75.0" text="Artist" />
+            <TableColumn fx:id="CategoryC" prefWidth="75.0" text="Category" />
+            <TableColumn fx:id="TimeC" prefWidth="75.0" text="Time" />
         </columns>
       </TableView>
       <Label layoutX="454.0" layoutY="102.0" prefHeight="18.0" prefWidth="50.0" text="Song">
@@ -35,7 +35,7 @@
       <Button fx:id="EditSong" layoutX="508.0" layoutY="538.0" mnemonicParsing="false" onAction="#SongShowNewEdit" text="Edit" />
       <Button layoutX="556.0" layoutY="538.0" mnemonicParsing="false" text="Delete" />
       <Button layoutX="702.0" layoutY="538.0" mnemonicParsing="false" text="Close" />
-      <Button layoutX="386.0" layoutY="138.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="41.0" text="&lt;--" />
+      <Button fx:id="testb" layoutX="386.0" layoutY="138.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="41.0" text="&lt;--" />
       <TableView layoutX="30.0" layoutY="129.0" prefHeight="392.0" prefWidth="182.0">
          <columns>
             <TableColumn prefWidth="52.800018310546875" text="Name" />
