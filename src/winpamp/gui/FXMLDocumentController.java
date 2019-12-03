@@ -9,6 +9,8 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -23,13 +25,24 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import winpamp.be.Song;
+import winpamp.bll.WinpampManager;
+import winpamp.dal.DalController;
 
 /**
  *
  * @author filip
  */
 public class FXMLDocumentController implements Initializable {
+    
+    WinpampManager wm = new WinpampManager();
+    DalController dl = new DalController();
+     ObservableList<Song> mList
+            = wm.GetsList();
     
     @FXML
     private Label label;
@@ -45,6 +58,21 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private Slider volumeBar;
     private MediaPlayer player;
+    private Button NewSong;
+    @FXML
+    private Button EditSong;
+    @FXML
+    private TableView<Song> songsList;
+    @FXML
+    private Button testb;
+    @FXML
+    private TableColumn<Song,String> TitleC;
+    @FXML
+    private TableColumn<Song, String> ArtistC;
+    @FXML
+    private TableColumn<Song, String> CategoryC;
+    @FXML
+    private TableColumn<Song, String> TimeC;
 
     @FXML
     private void ShowDelete(ActionEvent event) throws IOException {
@@ -63,33 +91,49 @@ public class FXMLDocumentController implements Initializable {
             SNE.setScene(scenee);
             SNE.show();        
     }
-
-    
     
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-    }    
 
-   @FXML
-    private void playSong(MouseEvent event) {
-        String bip = "m.mp3";
-        Media hit = new Media(new File(bip).toURI().toString());
-        player = new MediaPlayer(hit);
-        player.setAutoPlay(true);
-        if (player.getStatus() == MediaPlayer.Status.PLAYING) {
-            player.pause();
-        } else {
-            player.setVolume(.5);
-            player.play();
-        }
-    }
+ 
+       
+
+       TitleC.setCellValueFactory(
+            new PropertyValueFactory("name"));
+        ArtistC.setCellValueFactory(
+            new PropertyValueFactory("artist"));
+       CategoryC.setCellValueFactory(
+            new PropertyValueFactory("category"));
+       TimeC.setCellValueFactory(
+            new PropertyValueFactory("time"));
+       songsList.setItems(wm.GetsList());
+       
+       
+     //  if(!mList.equals(wm.GetsList()))
+     //  {
+     // songsList.setItems(wm.GetsList());  experimental auto update
+     //  mList = wm.GetsList();
+     //  }
+          }    
 
     @FXML
-    private void changeVolume(MouseEvent event) {
-        player.setVolume(volumeBar.getValue() / 100);
+    private void SongShowNewEdit(ActionEvent event) throws IOException {
+    
+Parent blahhh = FXMLLoader.load(getClass().getResource("/winpamp/gui/NewEditSong.fxml"));
+            Scene sceneee = new Scene(blahhh);
+            Stage SSNE = new Stage();
+            SSNE.setScene(sceneee);
+            SSNE.show();    
     }
-    }
+    
+   
+   
+    
+    
+    
+    
+    
+    
+}
 
-       

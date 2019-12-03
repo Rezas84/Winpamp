@@ -5,10 +5,34 @@
  */
 package winpamp.bll;
 
+import java.sql.SQLException;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import winpamp.be.Song;
+import winpamp.dal.DalController;
+
 /**
  *
  * @author filip
  */
 public class WinpampManager {
+    private DalController dalController = new DalController();
+    ObservableList<Song> sList
+            = FXCollections.observableArrayList(dalController.getAllSongs());
     
+    public ObservableList<Song> GetsList()
+    {
+        return sList;
+    }
+    
+    
+    
+    
+    public void EditSong(String songN, String songA, String songC, String songT, String songF) {
+        dalController.EditSong(songN, songA, songC, songT, songF);
+    }
+    
+    public void NewSong(String songN, String songA, String songC, String songT, String songF) {
+        dalController.NewSong(songN, songA, songC, songT, songF);
+    }
 }
