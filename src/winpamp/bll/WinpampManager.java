@@ -16,6 +16,12 @@ import winpamp.dal.DalController;
  * @author filip
  */
 public class WinpampManager {
+    
+    public static WinpampManager wm = new WinpampManager();
+    
+    
+    private boolean booleanSong;
+    
     private DalController dalController = new DalController();
     ObservableList<Song> sList
             = FXCollections.observableArrayList(dalController.getAllSongs());
@@ -34,5 +40,13 @@ public class WinpampManager {
     
     public void NewSong(String songN, String songA, String songC, String songT, String songF) {
         dalController.NewSong(songN, songA, songC, songT, songF);
+    }
+    
+    public void setSongBoolean (boolean songBoolean) {
+        booleanSong = songBoolean;
+    }
+    
+    public boolean getSongBoolean () {
+        return booleanSong;
     }
 }

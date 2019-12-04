@@ -47,15 +47,15 @@ public class DalController {
 
     public void EditSong(String name, String artist, String category, String time, String file) {
         
-       
+       System.out.println("EditSong working");
         
         try(Connection con = ds.getConnection()){
             String sqlIf = "UPDATE FROM ALLSONGS SET name = ?, artist = ?, category = ?, time = ? WHERE";
             PreparedStatement pstmt = con.prepareStatement(sqlIf);
-            pstmt.setString(1, name);
-            pstmt.setString(2, artist);
-            pstmt.setString(3, category);
-            pstmt.setString(4, time);
+            pstmt.setString(1, "" + name + "");
+            pstmt.setString(2, "" + artist + "");
+            pstmt.setString(3, "" + category + "");
+            pstmt.setString(4, "" + time + "");
          //   pstmt.setString(5, file);
             pstmt.execute();
 
@@ -65,16 +65,15 @@ public class DalController {
     }
     
     public void NewSong(String name, String artist, String category, String time, String file) {
-        
+        System.out.println("NewSong working");
    
         try(Connection con = ds.getConnection()){
-            String sqlIf = "INSERT INTO ALLSONGS (name, artist, category, time, file) VALUES (?, ?, ?, ?, ?)";
+            String sqlIf = "INSERT INTO ALLSONGS (Name, Artist, Category, Time) VALUES (?, ?, ?, ?);";
             PreparedStatement pstmt = con.prepareStatement(sqlIf);
-            pstmt.setString(1, name);
-            pstmt.setString(2, artist);
-            pstmt.setString(3, category);
-            pstmt.setString(4, time);
-            pstmt.setString(5, file);
+            pstmt.setString(1, "" + name + "");
+            pstmt.setString(2, "" + artist + "");
+            pstmt.setString(3, "" + category + "");
+            pstmt.setString(4, "" + time + "");
             pstmt.execute();
 
         } catch (SQLException ex) {

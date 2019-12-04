@@ -41,10 +41,15 @@ import winpamp.dal.DalController;
  *//////
 public class FXMLDocumentController implements Initializable {
 
-    WinpampManager wm = new WinpampManager();
+    
+    
     DalController dl = new DalController();
-    ObservableList<Song> mList
-            = wm.GetsList();
+     ObservableList<Song> mList
+            = WinpampManager.wm.GetsList();
+     private boolean newSong;
+    WinpampManager wm = new WinpampManager();
+  
+
 
     @FXML
     private Label label;
@@ -100,23 +105,38 @@ public class FXMLDocumentController implements Initializable {
         TitleC.setCellValueFactory(
                 new PropertyValueFactory("name"));
         ArtistC.setCellValueFactory(
-                new PropertyValueFactory("artist"));
-        CategoryC.setCellValueFactory(
-                new PropertyValueFactory("category"));
-        TimeC.setCellValueFactory(
-                new PropertyValueFactory("time"));
-        songsList.setItems(wm.GetsList());
-
-        //  if(!mList.equals(wm.GetsList()))
-        //  {
-        // songsList.setItems(wm.GetsList());  experimental auto update
-        //  mList = wm.GetsList();
-        //  }
-    }
+            new PropertyValueFactory("artist"));
+       CategoryC.setCellValueFactory(
+            new PropertyValueFactory("category"));
+       TimeC.setCellValueFactory(
+            new PropertyValueFactory("time"));
+       songsList.setItems(WinpampManager.wm.GetsList());
+       
+       
+     //  if(!mList.equals(wm.GetsList()))
+     //  {
+     // songsList.setItems(wm.GetsList());  experimental auto update
+     //  mList = wm.GetsList();
+     //  }
+          }    
 
     @FXML
-    private void SongShowNewEdit(ActionEvent event) {
-
+    private void SongNew(ActionEvent event)  {
+        newSong = true;
+        WinpampManager.wm.setSongBoolean(newSong);
+        SongShowNewEdit();
+    }
+    
+    @FXML
+    private void SongEdit(ActionEvent event)  {
+        newSong = false;
+        WinpampManager.wm.setSongBoolean(newSong);
+        SongShowNewEdit();
+    }
+    
+   
+   private void SongShowNewEdit() {
+     
         try {
             Parent blahhh = FXMLLoader.load(getClass().getResource("/winpamp/gui/NewEditSong.fxml"));
             Scene sceneee = new Scene(blahhh);
@@ -126,6 +146,8 @@ public class FXMLDocumentController implements Initializable {
         } catch (IOException ex) {
             Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
         }
+   
+
     }
 /**
  * Play and pause the music.
