@@ -24,8 +24,7 @@ public class NewEditSongController implements Initializable {
     
     
     
-    private WinpampManager winpamplogic = new WinpampManager(); 
-   
+
   
 
     @Override
@@ -61,9 +60,14 @@ public class NewEditSongController implements Initializable {
       songCategory = (String) SongCategory.getValue();
       songTime = SongTime.getText();
       songFileLocation = SongFileLocation.getText();
-        
-        
-     winpamplogic.EditSong(songName, songArtist, songCategory, songTime, songFileLocation );
+      
+    if(WinpampManager.wm.getSongBoolean() == true)
+    {
+     WinpampManager.wm.NewSong(songName, songArtist, songCategory, songTime, songFileLocation );
+    }
+    else{
+     WinpampManager.wm.EditSong(songName, songArtist, songCategory, songTime, songFileLocation );
+    }
     }
     
 

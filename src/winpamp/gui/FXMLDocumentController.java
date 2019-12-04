@@ -35,10 +35,11 @@ import winpamp.dal.DalController;
  */
 public class FXMLDocumentController implements Initializable {
     
-    WinpampManager wm = new WinpampManager();
+    
     DalController dl = new DalController();
      ObservableList<Song> mList
-            = wm.GetsList();
+            = WinpampManager.wm.GetsList();
+     private boolean newSong;
     
     @FXML
     private Label label;
@@ -95,7 +96,7 @@ public class FXMLDocumentController implements Initializable {
             new PropertyValueFactory("category"));
        TimeC.setCellValueFactory(
             new PropertyValueFactory("time"));
-       songsList.setItems(wm.GetsList());
+       songsList.setItems(WinpampManager.wm.GetsList());
        
        
      //  if(!mList.equals(wm.GetsList()))
@@ -106,8 +107,21 @@ public class FXMLDocumentController implements Initializable {
           }    
 
     @FXML
-    private void SongShowNewEdit(ActionEvent event)  {
+    private void SongNew(ActionEvent event)  {
+        newSong = true;
+        WinpampManager.wm.setSongBoolean(newSong);
+        SongShowNewEdit();
+    }
     
+    @FXML
+    private void SongEdit(ActionEvent event)  {
+        newSong = false;
+        WinpampManager.wm.setSongBoolean(newSong);
+        SongShowNewEdit();
+    }
+    
+   
+   private void SongShowNewEdit() {
         try {
             Parent blahhh = FXMLLoader.load(getClass().getResource("/winpamp/gui/NewEditSong.fxml"));
             Scene sceneee = new Scene(blahhh);
@@ -117,11 +131,8 @@ public class FXMLDocumentController implements Initializable {
         } catch (IOException ex) {
             Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }
-    
-   
-   
-    
+   }
+
     
     
     
