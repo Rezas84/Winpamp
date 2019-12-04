@@ -38,7 +38,7 @@ import winpamp.dal.DalController;
 /**
  *
  * @author filip
- */
+ *//////
 public class FXMLDocumentController implements Initializable {
 
     WinpampManager wm = new WinpampManager();
