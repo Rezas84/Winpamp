@@ -40,12 +40,18 @@ import winpamp.dal.DalController;
  * @author filip
  *//////
 public class FXMLDocumentController implements Initializable {
-
+    private MainModel model;
+    
+    public FXMLDocumentController()
+    {
+        model = MainModel.GetInstance();
+    }
+    
+    
     
     
     DalController dl = new DalController();
-     ObservableList<Song> mList
-            = WinpampManager.wm.GetsList();
+   
      private boolean newSong;
     WinpampManager wm = new WinpampManager();
   
@@ -102,15 +108,16 @@ public class FXMLDocumentController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        TitleC.setCellValueFactory(
-                new PropertyValueFactory("name"));
-        ArtistC.setCellValueFactory(
-            new PropertyValueFactory("artist"));
-       CategoryC.setCellValueFactory(
-            new PropertyValueFactory("category"));
-       TimeC.setCellValueFactory(
-            new PropertyValueFactory("time"));
-       songsList.setItems(WinpampManager.wm.GetsList());
+        update();
+//        TitleC.setCellValueFactory(
+//                new PropertyValueFactory("name"));
+//        ArtistC.setCellValueFactory(
+//            new PropertyValueFactory("artist"));
+//       CategoryC.setCellValueFactory(
+//            new PropertyValueFactory("category"));
+//       TimeC.setCellValueFactory(
+//            new PropertyValueFactory("time"));
+//       songsList.setItems(WinpampManager.wm.GetsList());
        
        
      //  if(!mList.equals(wm.GetsList()))
@@ -120,6 +127,31 @@ public class FXMLDocumentController implements Initializable {
      //  }
           }    
 
+    public void update()
+    {
+        songsList.getItems().clear();
+         TitleC.setCellValueFactory(
+                new PropertyValueFactory("name"));
+        ArtistC.setCellValueFactory(
+            new PropertyValueFactory("artist"));
+       CategoryC.setCellValueFactory(
+            new PropertyValueFactory("category"));
+       TimeC.setCellValueFactory(
+            new PropertyValueFactory("time"));
+       songsList.setItems(model.getsongs());
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     @FXML
     private void SongNew(ActionEvent event)  {
         newSong = true;
@@ -149,10 +181,7 @@ public class FXMLDocumentController implements Initializable {
    
 
     }
-/**
- * Play and pause the music.
- * @param event 
- */
+
     @FXML
     private void playSong(MouseEvent event) {
         String bip = "m.mp3";
@@ -167,10 +196,7 @@ public class FXMLDocumentController implements Initializable {
         }
 
     }
-/**
- * We can control Music volume.
- * @param event 
- */
+
     @FXML
     private void changeVolume(MouseEvent event) {
         player.setVolume(volumeBar.getValue() / 100);

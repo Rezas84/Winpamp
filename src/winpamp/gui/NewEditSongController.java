@@ -9,6 +9,7 @@ package winpamp.gui;
 import winpamp.bll.WinpampManager;
 
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -21,7 +22,11 @@ import javafx.scene.control.TextField;
  * @author cille
  */
 public class NewEditSongController implements Initializable {
-    
+    private MainModel model;
+    public NewEditSongController()
+            {
+                model = MainModel.GetInstance();
+            }
     
     
 
@@ -52,22 +57,26 @@ public class NewEditSongController implements Initializable {
    private String songCategory;
    private String songTime;
    private String songFileLocation;
+   
     
     @FXML
-    private void SaveEditSong(ActionEvent event) {
+    private void SaveEditSong(ActionEvent event) throws SQLException {
       songName = SongTitle.getText();
       songArtist = SongArtist.getText();
       songCategory = (String) SongCategory.getValue();
       songTime = SongTime.getText();
       songFileLocation = SongFileLocation.getText();
       
+      
     if(WinpampManager.wm.getSongBoolean() == true)
     {
-     WinpampManager.wm.NewSong(songName, songArtist, songCategory, songTime, songFileLocation );
+     //WinpampManager.wm.NewSong(songName, songArtist, songCategory, songTime, songFileLocation );
+     model.getsongs().add(WinpampManager.wm.NewSong(songName, songArtist, songCategory, songTime, songFileLocation));
     }
     else{
      WinpampManager.wm.EditSong(songName, songArtist, songCategory, songTime, songFileLocation );
     }
+    
     }
     
 

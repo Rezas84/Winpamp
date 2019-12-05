@@ -23,13 +23,7 @@ public class WinpampManager {
     private boolean booleanSong;
     
     private DalController dalController = new DalController();
-    ObservableList<Song> sList
-            = FXCollections.observableArrayList(dalController.getAllSongs());
-    
-    public ObservableList<Song> GetsList()
-    {
-        return sList;
-    }
+
     
     
     
@@ -38,8 +32,9 @@ public class WinpampManager {
         dalController.EditSong(songN, songA, songC, songT, songF);
     }
     
-    public void NewSong(String songN, String songA, String songC, String songT, String songF) {
-        dalController.NewSong(songN, songA, songC, songT, songF);
+    public Song NewSong(String songN, String songA, String songC, String songT, String songF) throws SQLException {
+        //dalController.NewSong(songN, songA, songC, songT, songF);
+        return (dalController.NewSong(songN, songA, songC, songT, songF));
     }
     
     public void setSongBoolean (boolean songBoolean) {
