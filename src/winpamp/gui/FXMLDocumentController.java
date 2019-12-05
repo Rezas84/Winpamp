@@ -8,6 +8,7 @@ package winpamp.gui;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -41,6 +42,8 @@ import winpamp.dal.DalController;
  *//////
 public class FXMLDocumentController implements Initializable {
     private MainModel model;
+    @FXML
+    private Button deleteSongButton;
     
     public FXMLDocumentController()
     {
@@ -144,7 +147,12 @@ public class FXMLDocumentController implements Initializable {
     
     
     
-    
+    @FXML
+    private Song getselectedid(ActionEvent event)
+    {
+       Song song = songsList.getSelectionModel().getSelectedItem();
+        return song;
+    }
     
     
     
@@ -201,5 +209,12 @@ public class FXMLDocumentController implements Initializable {
     private void changeVolume(MouseEvent event) {
         player.setVolume(volumeBar.getValue() / 100);
     }
+
+    @FXML
+    private void deleteSong(ActionEvent event) throws SQLException {
+       Song song = songsList.getSelectionModel().getSelectedItem();
+       dl.DeleteSong(song);
+       model.getsongs().remove(song);
+       }
 
 }

@@ -26,6 +26,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.Callback;
 import winpamp.be.Song;
+import winpamp.gui.MainModel;
 
 
 /**
@@ -34,8 +35,10 @@ import winpamp.be.Song;
  */
 public class DalController {
      SQLServerDataSource ds;
+      private MainModel model;
     public DalController()
     {
+        
         ds = new SQLServerDataSource();
         ds.setDatabaseName("Winpamp");
         ds.setUser("CSe19B_6");
@@ -110,6 +113,17 @@ public class DalController {
         }
         
         return songs;
+    }
+
+    public void DeleteSong(Song song) throws SQLException {
+       String sqlStatement = "DELETE FROM ALLSONGS WHERE id=?";
+        try (Connection con = ds.getConnection()){
+          PreparedStatement pstmt = con.prepareStatement(sqlStatement);
+        
+            pstmt.setInt(1,song.getId());
+            pstmt.execute();
+        }
+        
     }
     
     
