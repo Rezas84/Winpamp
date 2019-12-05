@@ -60,7 +60,7 @@ public class FXMLDocumentController implements Initializable {
      private boolean newSong;
     WinpampManager wm = new WinpampManager();
   
-
+    NewEditSongController nesc = new NewEditSongController();
 
     @FXML
     private Label label;
@@ -173,7 +173,11 @@ public class FXMLDocumentController implements Initializable {
     private void SongEdit(ActionEvent event)  {
         newSong = false;
         WinpampManager.wm.setSongBoolean(newSong);
+       Song selectedSong = songsList.getSelectionModel().getSelectedItem();
+       model.edit(selectedSong);
         SongShowNewEdit();
+         
+         
     }
     
    
@@ -188,7 +192,7 @@ public class FXMLDocumentController implements Initializable {
         } catch (IOException ex) {
             Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
         }
-   
+        
 
     }
 

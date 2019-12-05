@@ -48,23 +48,22 @@ public class DalController {
     }
 
 
-    public void EditSong(String name, String artist, String category, String time, String file) {
+    public Song EditSong(Song song, String name, String artist, String category, String time, String filelocation) throws SQLServerException, SQLException  {
         
        System.out.println("EditSong working");
         
         try(Connection con = ds.getConnection()){
-            String sqlIf = "UPDATE FROM ALLSONGS SET name = ?, artist = ?, category = ?, time = ? WHERE";
+            String sqlIf = "UPDATE ALLSONGS SET name = ?, artist = ?, category = ?, time = ?, Filelocation = ? WHERE id=?";
             PreparedStatement pstmt = con.prepareStatement(sqlIf);
             pstmt.setString(1, "" + name + "");
             pstmt.setString(2, "" + artist + "");
             pstmt.setString(3, "" + category + "");
             pstmt.setString(4, "" + time + "");
-         //   pstmt.setString(5, file);
+            pstmt.setString(5, "" + filelocation + "");
+            pstmt.setInt(6,song.getId());
             pstmt.execute();
-
-        } catch (SQLException ex) {
-            Logger.getLogger(DalController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        return new Song(name,artist,category,time,filelocation,song.getId());
+    }
     }
     
     public Song NewSong(String name, String artist, String category, String time, String filelocation) throws SQLException {

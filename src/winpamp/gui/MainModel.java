@@ -17,8 +17,10 @@ import winpamp.dal.DalController;
 public class MainModel {
     private ObservableList<Song> songList;
     private static MainModel instance;
+    private Song msong;
     private MainModel()
             {
+               msong = new Song("","","","","",0);
             songList = FXCollections.observableArrayList(dc.getAllSongs());
             }
     DalController dc = new DalController();
@@ -65,6 +67,12 @@ public class MainModel {
         
     }
      
-     
-     
+     public void edit(Song song)
+     {
+        msong = song;
+     }
+     public Song getESong()
+     {
+         return msong;
+     }
 }

@@ -22,6 +22,7 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import winpamp.be.Song;
 /**
  * FXML Controller class
  *
@@ -45,11 +46,16 @@ public class NewEditSongController implements Initializable {
             }
     
    
-
+private Song edit;
   
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+       if(WinpampManager.wm.getSongBoolean() == false)
+       {
+         edit(model.getESong());
+       }
+       
        SongCategory.getItems().addAll("Pop", "Hip-Hop", "Rock");
     }    
 
@@ -83,15 +89,16 @@ public class NewEditSongController implements Initializable {
       songTime = SongTime.getText();
       songFileLocation = SongFileLocation.getText();
       
-      
     if(WinpampManager.wm.getSongBoolean() == true)
     {
      //WinpampManager.wm.NewSong(songName, songArtist, songCategory, songTime, songFileLocation );
      model.getsongs().add(WinpampManager.wm.NewSong(songName, songArtist, songCategory, songTime, songFileLocation));
     }
     else{
-     WinpampManager.wm.EditSong(songName, songArtist, songCategory, songTime, songFileLocation );
-    }
+    model.getsongs().remove(model.getESong());
+    model.getsongs().add(WinpampManager.wm.EditSong(model.getESong(),songName, songArtist, songCategory, songTime, songFileLocation ));
+    WinpampManager.wm.setSongBoolean(true);
+       }
         closeStage(event);
     }
 
@@ -137,6 +144,17 @@ public class NewEditSongController implements Initializable {
     private void addCategory(ActionEvent event) {
         SongCategory.getItems().add(addCategory.getText());
         addCategory.clear();
+    }
+    
+    public void edit(Song song)
+    {
+        edit = song;
+        SongTitle.setText(edit.getName());
+        SongArtist.setText(edit.getArtist());
+        SongCategory.setValue(edit.getCategory());     
+        SongFileLocation.setText(edit.getFile());       
+        SongTime.setText(edit.getTime());
+        System.out.println("wykonuje");
     }
 
 }

@@ -28,8 +28,8 @@ public class WinpampManager {
     
     
     
-    public void EditSong(String songN, String songA, String songC, String songT, String songF) {
-        dalController.EditSong(songN, songA, songC, songT, songF);
+    public Song EditSong(Song song, String songN, String songA, String songC, String songT, String songF) throws SQLException {
+      return dalController.EditSong(song, songN, songA, songC, songT, songF);
     }
     
     public Song NewSong(String songN, String songA, String songC, String songT, String songF) throws SQLException {
