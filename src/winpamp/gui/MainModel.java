@@ -36,6 +36,34 @@ public class MainModel {
      {
          return songList;
      }
+
+     public static String ttoString(int timeInSeconds)
+    {
+        String result = "";
+        int minutes = timeInSeconds/60;
+        timeInSeconds %= 60;
+        int seconds = timeInSeconds;
+        if(minutes != 0)
+        {
+            if(minutes<10)
+            {
+                result += "0";
+            }
+            result += minutes + ":";
+        }
+        
+        else
+        {
+            result += "00:";
+        }
+        if(seconds<10)
+        {
+            result += "0";
+        }
+        result += timeInSeconds;
+        return result;
+        
+    }
      
      
      

@@ -44,6 +44,8 @@ public class FXMLDocumentController implements Initializable {
     private MainModel model;
     @FXML
     private Button deleteSongButton;
+    @FXML
+    private Button close;
     
     public FXMLDocumentController()
     {
@@ -216,5 +218,11 @@ public class FXMLDocumentController implements Initializable {
        dl.DeleteSong(song);
        model.getsongs().remove(song);
        }
+
+    @FXML
+    private void closeStage(ActionEvent event) {
+        Stage stage = (Stage) close.getScene().getWindow();
+    stage.close();
+    }
 
 }

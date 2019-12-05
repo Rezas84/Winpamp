@@ -34,7 +34,7 @@
       <Button fx:id="NewSong" layoutX="455.0" layoutY="538.0" mnemonicParsing="false" onAction="#SongNew" text="New" />
       <Button fx:id="EditSong" layoutX="508.0" layoutY="538.0" mnemonicParsing="false" onAction="#SongEdit" text="Edit" />
       <Button fx:id="deleteSongButton" layoutX="556.0" layoutY="538.0" mnemonicParsing="false" onAction="#deleteSong" text="Delete" />
-      <Button layoutX="702.0" layoutY="538.0" mnemonicParsing="false" text="Close" />
+      <Button fx:id="close" layoutX="702.0" layoutY="538.0" mnemonicParsing="false" onAction="#closeStage" text="Close" />
       <Button fx:id="testb" layoutX="386.0" layoutY="138.0" mnemonicParsing="false" onAction="#getselectedid" prefHeight="27.0" prefWidth="41.0" text="&lt;--" />
       <TableView layoutX="30.0" layoutY="129.0" prefHeight="392.0" prefWidth="182.0">
          <columns>

@@ -6,6 +6,7 @@
 package winpamp.gui;
 
 
+import java.io.File;
 import winpamp.bll.WinpampManager;
 
 import java.net.URL;
@@ -14,8 +15,13 @@ import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 /**
  * FXML Controller class
  *
@@ -23,18 +29,28 @@ import javafx.scene.control.TextField;
  */
 public class NewEditSongController implements Initializable {
     private MainModel model;
+    @FXML
+    private Button cancel;
+    @FXML
+    private Button choose;
+    @FXML
+    private Button save;
+    @FXML
+    private Button moreCategories;
+    @FXML
+    private TextField addCategory;
     public NewEditSongController()
             {
                 model = MainModel.GetInstance();
             }
     
-    
+   
 
   
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+       SongCategory.getItems().addAll("Pop", "Hip-Hop", "Rock");
     }    
 
    @FXML
@@ -76,8 +92,53 @@ public class NewEditSongController implements Initializable {
     else{
      WinpampManager.wm.EditSong(songName, songArtist, songCategory, songTime, songFileLocation );
     }
-    
+        closeStage(event);
     }
+
+    @FXML
+    private void closeStage(ActionEvent event) {
+        Stage stage = (Stage)cancel.getScene().getWindow();
     
+    stage.close();
+    }
+
+    @FXML
+    private void chooseFile(ActionEvent event) {
+        FileChooser fileChooser = new FileChooser();
+        Stage stage = new Stage();
+       fileChooser.setTitle("Open Resource File");
+       File selectedFile = fileChooser.showOpenDialog(null);
+        if(selectedFile != null)
+        {
+            SongFileLocation.setText(selectedFile.getPath());
+            SongTitle.setText(selectedFile.getName());
+            setTimeField(selectedFile);
+            
+            
+        }
+    }
+     private void setTimeField(File selectedFile) 
+    {
+      Media mediaFile = new Media(selectedFile.toURI().toString());
+        MediaPlayer mediaPlayer = new MediaPlayer(mediaFile);
+        mediaPlayer.setOnReady(new Runnable()
+            {
+                @Override
+                public void run()
+                {
+                    int timeOfSong = (int) mediaFile.getDuration().toSeconds();
+                    SongTime.setText(model.ttoString(timeOfSong));
+                }
+            }      
+        );
+    }
+
+    @FXML
+    private void addCategory(ActionEvent event) {
+        SongCategory.getItems().add(addCategory.getText());
+        addCategory.clear();
+    }
 
 }
+ 
+        

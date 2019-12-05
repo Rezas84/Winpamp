@@ -21,11 +21,12 @@
             <TextField fx:id="SongArtist" layoutX="147.0" layoutY="127.0" prefHeight="25.0" prefWidth="202.0" />
             <TextField fx:id="SongTime" layoutX="147.0" layoutY="195.0" prefHeight="25.0" prefWidth="202.0" />
             <TextField fx:id="SongFileLocation" layoutX="147.0" layoutY="230.0" prefHeight="25.0" prefWidth="202.0" />
-            <Button layoutX="363.0" layoutY="230.0" mnemonicParsing="false" text="Choose..." />
-            <Button layoutX="308.0" layoutY="290.0" mnemonicParsing="false" onAction="#SaveEditSong" text="Save" />
-            <Button layoutX="375.0" layoutY="290.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="54.0" text="Cancel" />
+            <Button fx:id="choose" layoutX="370.0" layoutY="230.0" mnemonicParsing="false" onAction="#chooseFile" text="Choose..." />
+            <Button fx:id="save" layoutX="308.0" layoutY="290.0" mnemonicParsing="false" onAction="#SaveEditSong" text="Save" />
+            <Button fx:id="cancel" layoutX="379.0" layoutY="290.0" mnemonicParsing="false" onAction="#closeStage" prefHeight="17.0" prefWidth="54.0" text="Cancel" />
             <Text layoutX="212.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="New/Edit Song" wrappingWidth="86.923828125" />
-            <Button layoutX="295.0" layoutY="161.0" mnemonicParsing="false" text="More..." />
+            <Button fx:id="moreCategories" layoutX="395.0" layoutY="161.0" mnemonicParsing="false" onAction="#addCategory" text="Add" />
+            <TextField fx:id="addCategory" layoutX="289.0" layoutY="161.0" prefHeight="26.0" prefWidth="101.0" />
          </children>
     </AnchorPane>
   </children>
