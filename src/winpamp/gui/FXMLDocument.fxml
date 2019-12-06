@@ -52,7 +52,7 @@
       <Button layoutX="228.0" layoutY="538.0" mnemonicParsing="false" text="/\" />
       <Button layoutX="264.0" layoutY="538.0" mnemonicParsing="false" text="\\/" />
       <Button layoutX="315.0" layoutY="538.0" mnemonicParsing="false" text="Delete" />
-      <Label layoutX="352.0" layoutY="44.0" prefHeight="35.0" prefWidth="138.0" text="Is Playing">
+      <Label fx:id="musiclabel" layoutX="227.0" layoutY="44.0" prefHeight="35.0" prefWidth="263.0" text="nothing Is Playing">
          <font>
             <Font size="24.0" />
          </font></Label>
@@ -71,7 +71,7 @@
             <Image url="https://middle.pngfans.com/20190509/er/speaker-icon-animated-gif-png-sound-computer-icons-7430d1e73d1d992a.jpg" />
          </image>
       </ImageView>
-      <Slider fx:id="volumeBar" layoutX="77.0" layoutY="72.0" onMouseDragged="#changeVolume" value="50.0" />
+      <Slider fx:id="volumeBar" layoutX="72.0" layoutY="74.0" onMouseDragged="#changeVolume" value="50.0" />
       <ImageView fitHeight="20.0" fitWidth="37.0" layoutX="123.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true" rotate="-180.0">
          <image>
             <Image url="https://cdn.iconscout.com/icon/premium/png-256-thumb/fast-backward-3-576310.png" />
