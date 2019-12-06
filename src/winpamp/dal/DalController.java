@@ -116,7 +116,9 @@ public class DalController {
     }
 
     public void DeleteSong(Song song) throws SQLException {
-       String sqlStatement = "DELETE FROM ALLSONGS WHERE id=?";
+       String sqlStatement = "alter table PLAYLIST_SONGS nocheck constraint all; DELETE FROM ALLSONGS WHERE id=?; alter table PLAYLIST_SONGS check constraint all;";
+               
+               
         try (Connection con = ds.getConnection()){
           PreparedStatement pstmt = con.prepareStatement(sqlStatement);
         

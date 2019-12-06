@@ -9,6 +9,8 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -26,6 +28,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -46,6 +49,10 @@ public class FXMLDocumentController implements Initializable {
     private Button deleteSongButton;
     @FXML
     private Button close;
+    @FXML
+    private Button searcher;
+    @FXML
+    private TextField searcherfield;
     
     public FXMLDocumentController()
     {
@@ -56,7 +63,7 @@ public class FXMLDocumentController implements Initializable {
     
     
     DalController dl = new DalController();
-   
+     private boolean clicked = true;
      private boolean newSong;
     WinpampManager wm = new WinpampManager();
   
@@ -229,4 +236,19 @@ public class FXMLDocumentController implements Initializable {
     stage.close();
     }
 
+    @FXML
+    private void search(ActionEvent event) {
+        if(clicked)
+        { songsList.setItems(wm.search(model.getsongs(),searcherfield.getText()));
+        searcher.setText("");
+        clicked = false;}
+        else
+        {songsList.setItems(model.getsongs());
+        searcher.setText("Search");
+        searcherfield.clear();
+        clicked = true;}
+        
+        
+    }
+   
 }

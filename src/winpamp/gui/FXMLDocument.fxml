@@ -29,8 +29,8 @@
          </font>
       </Label>
       <Label layoutX="561.0" layoutY="54.0" text="Filter" />
-      <TextField layoutX="604.0" layoutY="50.0" prefHeight="27.0" prefWidth="81.0" />
-      <Button layoutX="691.0" layoutY="51.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="61.0" text="Search" />
+      <TextField fx:id="searcherfield" layoutX="604.0" layoutY="50.0" prefHeight="27.0" prefWidth="81.0" />
+      <Button fx:id="searcher" layoutX="691.0" layoutY="51.0" mnemonicParsing="false" onAction="#search" prefHeight="26.0" prefWidth="61.0" text="Search" />
       <Button fx:id="NewSong" layoutX="455.0" layoutY="538.0" mnemonicParsing="false" onAction="#SongNew" text="New" />
       <Button fx:id="EditSong" layoutX="508.0" layoutY="538.0" mnemonicParsing="false" onAction="#SongEdit" text="Edit" />
       <Button fx:id="deleteSongButton" layoutX="556.0" layoutY="538.0" mnemonicParsing="false" onAction="#deleteSong" text="Delete" />
