@@ -7,6 +7,7 @@ package winpamp.gui;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URI;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -53,6 +54,10 @@ public class FXMLDocumentController implements Initializable {
     private Button searcher;
     @FXML
     private TextField searcherfield;
+    @FXML
+    private Label musiclabel;
+     @FXML
+    private Slider volumeBar;
     
     public FXMLDocumentController()
     {
@@ -65,6 +70,7 @@ public class FXMLDocumentController implements Initializable {
     DalController dl = new DalController();
      private boolean clicked = true;
      private boolean newSong;
+     private boolean playing = true;
     WinpampManager wm = new WinpampManager();
   
     NewEditSongController nesc = new NewEditSongController();
@@ -96,9 +102,8 @@ public class FXMLDocumentController implements Initializable {
     private TableColumn<Song, String> TimeC;
     @FXML
     private ImageView playId;
-    private MediaPlayer player;
-    @FXML
-    private Slider volumeBar;
+    
+   
 
     @FXML
     private void ShowDelete(ActionEvent event) throws IOException {
@@ -203,25 +208,12 @@ public class FXMLDocumentController implements Initializable {
 
     }
 
-    @FXML
-    private void playSong(MouseEvent event) {
-        String bip = "m.mp3";
-        Media hit = new Media(new File(bip).toURI().toString());
-        player = new MediaPlayer(hit);
-        player.setAutoPlay(true);
-        if (player.getStatus() == MediaPlayer.Status.PLAYING) {
-            player.pause();
-        } else {
-            player.setVolume(.5);
-            player.play();
-        }
 
-    }
 
-    @FXML
-    private void changeVolume(MouseEvent event) {
-        player.setVolume(volumeBar.getValue() / 100);
-    }
+//    @FXML
+//    private void changeVolume(MouseEvent event) {
+//        player.setVolume(volumeBar.getValue() / 100);
+//    }
 
     @FXML
     private void deleteSong(ActionEvent event) throws SQLException {
@@ -250,5 +242,31 @@ public class FXMLDocumentController implements Initializable {
         
         
     }
-   
+     private static MediaPlayer mediaPlayer;
+     
+    @FXML
+    private void playSong(MouseEvent event) {
+     File f = new File(songsList.getSelectionModel().getSelectedItem().getFile());
+     URI u = f.toURI();
+     String s = u.toString();
+     Media media = new Media(s);
+     mediaPlayer = new MediaPlayer(media); 
+      
+        if (playing == false)
+        {
+            mediaPlayer.stop();
+            musiclabel.setText("nothing is playing");
+            playing = true;
+        }
+            
+        else{
+           mediaPlayer.play();
+           musiclabel.setText(songsList.getSelectionModel().getSelectedItem().getName());
+           playing = false;
+    }
+        }
+    @FXML
+    private void changeVolume(MouseEvent event) {
+        mediaPlayer.setVolume(volumeBar.getValue() / 100);
+    }
 }
