@@ -14,13 +14,16 @@ public class Song {
     private String Artist;
     private String Category;
     private String Time;
-    
+    private String File;
+    private int Id;
 
-    public Song(String name,String artist,String category,String time) {
+    public Song(String name,String artist,String category,String time,String file,int id) {
         this.Name = name;
         this.Artist = artist;
         this.Category = category;
         this.Time = time;
+        this.File = file;
+        this.Id = id;
     }
      public String getName() {
         return Name;
@@ -29,7 +32,23 @@ public class Song {
     public void setName(String name) {
         this.Name = name;
     }
-
+    public int getId()
+    {
+        return Id;
+    }
+    
+    
+    
+    
+    public String getFile()
+    {
+        return File;
+    }
+    
+    public void setFile(String file)
+    {
+        this.File = file;
+    }
 
     public void setArtist(String artist) {
         this.Artist = artist;

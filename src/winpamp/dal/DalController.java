@@ -26,6 +26,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.Callback;
 import winpamp.be.Song;
+import winpamp.gui.MainModel;
 
 
 /**
@@ -34,8 +35,10 @@ import winpamp.be.Song;
  */
 public class DalController {
      SQLServerDataSource ds;
+      private MainModel model;
     public DalController()
     {
+        
         ds = new SQLServerDataSource();
         ds.setDatabaseName("Winpamp");
         ds.setUser("CSe19B_6");
@@ -45,40 +48,41 @@ public class DalController {
     }
 
 
-    public void EditSong(String name, String artist, String category, String time, String file) {
+    public Song EditSong(Song song, String name, String artist, String category, String time, String filelocation) throws SQLServerException, SQLException  {
         
        System.out.println("EditSong working");
         
         try(Connection con = ds.getConnection()){
-            String sqlIf = "UPDATE FROM ALLSONGS SET name = ?, artist = ?, category = ?, time = ? WHERE";
+            String sqlIf = "UPDATE ALLSONGS SET name = ?, artist = ?, category = ?, time = ?, Filelocation = ? WHERE id=?";
             PreparedStatement pstmt = con.prepareStatement(sqlIf);
             pstmt.setString(1, "" + name + "");
             pstmt.setString(2, "" + artist + "");
             pstmt.setString(3, "" + category + "");
             pstmt.setString(4, "" + time + "");
-         //   pstmt.setString(5, file);
+            pstmt.setString(5, "" + filelocation + "");
+            pstmt.setInt(6,song.getId());
             pstmt.execute();
-
-        } catch (SQLException ex) {
-            Logger.getLogger(DalController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        return new Song(name,artist,category,time,filelocation,song.getId());
+    }
     }
     
-    public void NewSong(String name, String artist, String category, String time, String file) {
+    public Song NewSong(String name, String artist, String category, String time, String filelocation) throws SQLException {
         System.out.println("NewSong working");
    
         try(Connection con = ds.getConnection()){
-            String sqlIf = "INSERT INTO ALLSONGS (Name, Artist, Category, Time) VALUES (?, ?, ?, ?);";
-            PreparedStatement pstmt = con.prepareStatement(sqlIf);
+            String sqlIf = "INSERT INTO ALLSONGS (Name, Artist, Category, Time, Filelocation) VALUES (?, ?, ?, ?, ?);";
+            PreparedStatement pstmt = con.prepareStatement(sqlIf,Statement.RETURN_GENERATED_KEYS);
             pstmt.setString(1, "" + name + "");
             pstmt.setString(2, "" + artist + "");
             pstmt.setString(3, "" + category + "");
             pstmt.setString(4, "" + time + "");
+            pstmt.setString(5, "" + filelocation + "");
             pstmt.execute();
-
-        } catch (SQLException ex) {
-            Logger.getLogger(DalController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+            ResultSet rs = pstmt.getGeneratedKeys();
+            rs.next();
+            int id = rs.getInt(1);
+            return new Song(name,artist,category,time,filelocation,id);
+        } 
     }
     
      public List<Song> getAllSongs() 
@@ -94,7 +98,9 @@ public class DalController {
                 String artist = rs.getString("artist");
                 String category = rs.getString("category");
                 String time = rs.getString("time");
-                Song p = new Song(name,artist,category,time);
+                String file = rs.getString("Filelocation");
+                int id = rs.getInt("id");
+                Song p = new Song(name,artist,category,time,file,id);
                 songs.add(p);
             }
             
@@ -107,6 +113,17 @@ public class DalController {
         }
         
         return songs;
+    }
+
+    public void DeleteSong(Song song) throws SQLException {
+       String sqlStatement = "DELETE FROM ALLSONGS WHERE id=?";
+        try (Connection con = ds.getConnection()){
+          PreparedStatement pstmt = con.prepareStatement(sqlStatement);
+        
+            pstmt.setInt(1,song.getId());
+            pstmt.execute();
+        }
+        
     }
     
     

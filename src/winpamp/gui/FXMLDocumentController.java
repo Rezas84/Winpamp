@@ -8,6 +8,7 @@ package winpamp.gui;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -40,16 +41,26 @@ import winpamp.dal.DalController;
  * @author filip
  *//////
 public class FXMLDocumentController implements Initializable {
-
+    private MainModel model;
+    @FXML
+    private Button deleteSongButton;
+    @FXML
+    private Button close;
+    
+    public FXMLDocumentController()
+    {
+        model = MainModel.GetInstance();
+    }
+    
+    
     
     
     DalController dl = new DalController();
-     ObservableList<Song> mList
-            = WinpampManager.wm.GetsList();
+   
      private boolean newSong;
     WinpampManager wm = new WinpampManager();
   
-
+    NewEditSongController nesc = new NewEditSongController();
 
     @FXML
     private Label label;
@@ -102,15 +113,16 @@ public class FXMLDocumentController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        TitleC.setCellValueFactory(
-                new PropertyValueFactory("name"));
-        ArtistC.setCellValueFactory(
-            new PropertyValueFactory("artist"));
-       CategoryC.setCellValueFactory(
-            new PropertyValueFactory("category"));
-       TimeC.setCellValueFactory(
-            new PropertyValueFactory("time"));
-       songsList.setItems(WinpampManager.wm.GetsList());
+        update();
+//        TitleC.setCellValueFactory(
+//                new PropertyValueFactory("name"));
+//        ArtistC.setCellValueFactory(
+//            new PropertyValueFactory("artist"));
+//       CategoryC.setCellValueFactory(
+//            new PropertyValueFactory("category"));
+//       TimeC.setCellValueFactory(
+//            new PropertyValueFactory("time"));
+//       songsList.setItems(WinpampManager.wm.GetsList());
        
        
      //  if(!mList.equals(wm.GetsList()))
@@ -120,6 +132,36 @@ public class FXMLDocumentController implements Initializable {
      //  }
           }    
 
+    public void update()
+    {
+        songsList.getItems().clear();
+         TitleC.setCellValueFactory(
+                new PropertyValueFactory("name"));
+        ArtistC.setCellValueFactory(
+            new PropertyValueFactory("artist"));
+       CategoryC.setCellValueFactory(
+            new PropertyValueFactory("category"));
+       TimeC.setCellValueFactory(
+            new PropertyValueFactory("time"));
+       songsList.setItems(model.getsongs());
+    }
+    
+    
+    
+    
+    @FXML
+    private Song getselectedid(ActionEvent event)
+    {
+       Song song = songsList.getSelectionModel().getSelectedItem();
+        return song;
+    }
+    
+    
+    
+    
+    
+    
+    
     @FXML
     private void SongNew(ActionEvent event)  {
         newSong = true;
@@ -131,7 +173,11 @@ public class FXMLDocumentController implements Initializable {
     private void SongEdit(ActionEvent event)  {
         newSong = false;
         WinpampManager.wm.setSongBoolean(newSong);
+       Song selectedSong = songsList.getSelectionModel().getSelectedItem();
+       model.edit(selectedSong);
         SongShowNewEdit();
+         
+         
     }
     
    
@@ -146,13 +192,10 @@ public class FXMLDocumentController implements Initializable {
         } catch (IOException ex) {
             Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
         }
-   
+        
 
     }
-/**
- * Play and pause the music.
- * @param event 
- */
+
     @FXML
     private void playSong(MouseEvent event) {
         String bip = "m.mp3";
@@ -167,13 +210,23 @@ public class FXMLDocumentController implements Initializable {
         }
 
     }
-/**
- * We can control Music volume.
- * @param event 
- */
+
     @FXML
     private void changeVolume(MouseEvent event) {
         player.setVolume(volumeBar.getValue() / 100);
+    }
+
+    @FXML
+    private void deleteSong(ActionEvent event) throws SQLException {
+       Song song = songsList.getSelectionModel().getSelectedItem();
+       dl.DeleteSong(song);
+       model.getsongs().remove(song);
+       }
+
+    @FXML
+    private void closeStage(ActionEvent event) {
+        Stage stage = (Stage) close.getScene().getWindow();
+    stage.close();
     }
 
 }
