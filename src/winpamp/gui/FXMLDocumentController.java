@@ -256,7 +256,7 @@ public class FXMLDocumentController implements Initializable {
         if (playing == false)
         {
             mediaPlayer.stop();
-            File img = new File ("Pause.png");
+            File img = new File ("Play.png");
             playId.setImage(new Image(img.toURI().toString()));
             musiclabel.setText("nothing is playing");
             playing = true;
@@ -264,7 +264,7 @@ public class FXMLDocumentController implements Initializable {
             
         else{
            mediaPlayer.play();
-           File img = new File ("Play.png");
+           File img = new File ("Pause.png");
            playId.setImage(new Image(img.toURI().toString()));
            musiclabel.setText(songsList.getSelectionModel().getSelectedItem().getName());
            playing = false;
