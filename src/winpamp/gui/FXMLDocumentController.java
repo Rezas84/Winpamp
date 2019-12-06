@@ -31,6 +31,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.media.Media;
@@ -255,12 +256,16 @@ public class FXMLDocumentController implements Initializable {
         if (playing == false)
         {
             mediaPlayer.stop();
+            File img = new File ("Pause.png");
+            playId.setImage(new Image(img.toURI().toString()));
             musiclabel.setText("nothing is playing");
             playing = true;
         }
             
         else{
            mediaPlayer.play();
+           File img = new File ("Play.png");
+           playId.setImage(new Image(img.toURI().toString()));
            musiclabel.setText(songsList.getSelectionModel().getSelectedItem().getName());
            playing = false;
     }
