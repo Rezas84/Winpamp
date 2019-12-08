@@ -8,6 +8,7 @@ package winpamp.bll;
 import java.sql.SQLException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
 import winpamp.be.Song;
 import winpamp.dal.DalController;
 
@@ -43,5 +44,23 @@ public class WinpampManager {
     
     public boolean getSongBoolean () {
         return booleanSong;
+    }
+     @FXML
+      public ObservableList<Song> search(ObservableList<Song> searchBase, String query) {
+          
+       ObservableList<Song> filtered = FXCollections.observableArrayList();
+
+        if (query.isEmpty()) {
+            return searchBase;
+        }
+
+        for (Song song : searchBase) {
+            if (song.getName().toLowerCase().contains(query.toLowerCase()) || song.getArtist().toLowerCase().contains(query.toLowerCase()) ) 
+            {
+                filtered.add(song);
+            }
+        }
+
+        return filtered;
     }
 }
