@@ -128,8 +128,54 @@ public class DalController {
         
     }
     
+    public void getPlaylistSongs (String plname) {
+        String sqlStatement = "SELECT * FROM ALLSONGS WHERE Id IN(Select SongId FROM PLAYLIST_SONGS WHERE PlaylistId IN(SELECT PlaylistId FROM ALLPLAYLISTS WHERE Name=?)); ";
+               
+               
+        try (Connection con = ds.getConnection()){
+          PreparedStatement pstmt = con.prepareStatement(sqlStatement);
+        
+            pstmt.setString(1,"" + plname + "");
+            pstmt.execute();
+        } catch (SQLServerException ex) {
+             Logger.getLogger(DalController.class.getName()).log(Level.SEVERE, null, ex);
+         } catch (SQLException ex) {
+             Logger.getLogger(DalController.class.getName()).log(Level.SEVERE, null, ex);
+         }
+    }
     
+    public void addSongToPlaylist (Song song, String playlistId){
+        String sqlStatement = "INSERT INTO PLAYLIST_SONGS (PlaylistId, SongId) VALUES(?, ?);";
+               
+               
+        try (Connection con = ds.getConnection()){
+          PreparedStatement pstmt = con.prepareStatement(sqlStatement);
+        
+            pstmt.setString(1,"" + playlistId + "");
+            pstmt.setInt(1,song.getId());
+            pstmt.execute();
+        } catch (SQLServerException ex) {
+             Logger.getLogger(DalController.class.getName()).log(Level.SEVERE, null, ex);
+         } catch (SQLException ex) {
+             Logger.getLogger(DalController.class.getName()).log(Level.SEVERE, null, ex);
+         }
+    }
     
-    
+    public void removeSongFromPlaylist (Song song, String playlistId){
+        String sqlStatement = "DELETE FROM PLAYLIST_SONGS WHERE PlaylistId=? AND SongId=?;";
+               
+               
+        try (Connection con = ds.getConnection()){
+          PreparedStatement pstmt = con.prepareStatement(sqlStatement);
+        
+            pstmt.setString(1,"" + playlistId + "");
+            pstmt.setInt(1,song.getId());
+            pstmt.execute();
+        } catch (SQLServerException ex) {
+             Logger.getLogger(DalController.class.getName()).log(Level.SEVERE, null, ex);
+         } catch (SQLException ex) {
+             Logger.getLogger(DalController.class.getName()).log(Level.SEVERE, null, ex);
+         }
+    }    
     
 }
