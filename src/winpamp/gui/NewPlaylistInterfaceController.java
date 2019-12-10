@@ -17,25 +17,21 @@ import javafx.stage.Stage;
 /**
  * FXML Controller class
  *
- * @author cille
+ * @author filip
  */
-public class EditPlaylistInterfaceController implements Initializable {
- private MainModel model;
+public class NewPlaylistInterfaceController implements Initializable {
+
     @FXML
     private TextField playlistName;
     @FXML
     private Button cancel;
+
     /**
      * Initializes the controller class.
      */
- public EditPlaylistInterfaceController()
- {
-      model = MainModel.GetInstance();
- }
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        playlistName.setText(model.getPlaylistToDelete().getName());
-       
+        // TODO
     }    
 
     @FXML

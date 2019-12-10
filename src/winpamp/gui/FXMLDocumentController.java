@@ -134,6 +134,7 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     private void ShowNewEdit(ActionEvent event) throws IOException {
+        model.setPlaylistToDelete(playlistList.getSelectionModel().getSelectedItem());
         Parent blahh = FXMLLoader.load(getClass().getResource("/winpamp/gui/EditPlaylistInterface.fxml"));
         Scene scenee = new Scene(blahh);
         Stage SNE = new Stage();
@@ -304,5 +305,14 @@ public class FXMLDocumentController implements Initializable {
 
     private void indexor(MouseEvent event) {
         model.setItemcounter(sop.getSelectionModel().getSelectedIndex());
+    }
+
+    @FXML
+    private void ShowNew(ActionEvent event) throws IOException {
+          Parent blahh = FXMLLoader.load(getClass().getResource("/winpamp/gui/NewPlaylistInterface.fxml"));
+        Scene scenee = new Scene(blahh);
+        Stage SNE = new Stage();
+        SNE.setScene(scenee);
+        SNE.show();
     }
 }
