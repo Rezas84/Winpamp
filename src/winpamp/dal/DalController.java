@@ -68,7 +68,6 @@ public class DalController {
     }
     
     public Song NewSong(String name, String artist, String category, String time, String filelocation) throws SQLException {
-        System.out.println("NewSong working");
    
         try(Connection con = ds.getConnection()){
             String sqlIf = "INSERT INTO ALLSONGS (Name, Artist, Category, Time, Filelocation) VALUES (?, ?, ?, ?, ?);";
@@ -253,8 +252,21 @@ public class DalController {
      }
      
      
+     public Playlist newPlaylist(String name) throws SQLException
+     {     
+       try(Connection con = ds.getConnection()){
+            String sqlIf = "INSERT INTO ALLPLAYLISTS (Name) VALUES (?);";
+            PreparedStatement pstmt = con.prepareStatement(sqlIf,Statement.RETURN_GENERATED_KEYS);
+            pstmt.setString(1, "" + name + "");
+          
+            pstmt.execute();
+            ResultSet rs = pstmt.getGeneratedKeys();
+            rs.next();
+            int id = rs.getInt(1);
+             return new Playlist(name,id);
+        
+                                               }
      
-     
-     
+     }
      
 }

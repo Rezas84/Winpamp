@@ -6,6 +6,7 @@
 package winpamp.gui;
 
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -25,10 +26,15 @@ public class NewPlaylistInterfaceController implements Initializable {
     private TextField playlistName;
     @FXML
     private Button cancel;
-
+    private MainModel model; 
     /**
      * Initializes the controller class.
      */
+    public NewPlaylistInterfaceController()
+    {
+         model = MainModel.GetInstance();
+
+    }
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
@@ -37,6 +43,14 @@ public class NewPlaylistInterfaceController implements Initializable {
     @FXML
     private void cancelView(ActionEvent event) {
          Stage stage = (Stage)cancel.getScene().getWindow();
+    
+    stage.close();
+    }
+
+    @FXML
+    private void newPl(ActionEvent event) throws SQLException {
+        model.addPlaylist(playlistName.getText());
+        Stage stage = (Stage)cancel.getScene().getWindow();
     
     stage.close();
     }

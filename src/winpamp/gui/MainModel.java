@@ -5,6 +5,7 @@
  */
 package winpamp.gui;
 
+import java.sql.SQLException;
 import java.util.Collections;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -144,5 +145,14 @@ public class MainModel {
     public void removefromPlaylists()
     {
         playlistList.remove(getPlaylistToDelete());
+}
+
+    public void addPlaylist(String name) throws SQLException
+    {
+        playlistList.add(dc.newPlaylist(name));
     }
+            
+    
+    
+    
 }
