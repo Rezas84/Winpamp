@@ -75,6 +75,8 @@ public class FXMLDocumentController implements Initializable {
     private Button rowm;
     @FXML
     private Button rowp;
+    @FXML
+    private TableColumn<Playlist, Integer> playlistsSongs;
     
     public FXMLDocumentController()
     {
@@ -149,7 +151,8 @@ public class FXMLDocumentController implements Initializable {
         playlistList.getItems().clear();
         songsList.getItems().clear();
         
-         
+       playlistsSongs.setCellValueFactory(
+           new PropertyValueFactory ("row"));
        playlistName.setCellValueFactory(
             new PropertyValueFactory("name"));
          TitleC.setCellValueFactory(
@@ -269,7 +272,12 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private void addToPl(ActionEvent event) throws SQLException {
         dl.addSongToPlaylist(songsList.getSelectionModel().getSelectedItem(),playlistList.getSelectionModel().getSelectedItem().GetId());
-        sop.setItems(model.getSopList(playlistList.getSelectionModel().getSelectedItem().getName()));  
+        sop.setItems(model.getSopList(playlistList.getSelectionModel().getSelectedItem().getName())); 
+        playlistList.getSelectionModel().getSelectedItem().setRow(playlistList.getSelectionModel().getSelectedItem().getRow()+1);
+        playlistsSongs.setVisible(false);
+         playlistsSongs.setVisible(true);
+        
+           
     }
 
     @FXML
@@ -277,11 +285,15 @@ public class FXMLDocumentController implements Initializable {
         int id = sop.getSelectionModel().getSelectedItem().getId();
         dl.removeSongFromPlaylist(songsList.getSelectionModel().getSelectedItem(),playlistList.getSelectionModel().getSelectedItem().GetId(),id);
          sop.setItems(model.getSopList(playlistList.getSelectionModel().getSelectedItem().getName())); 
+          playlistList.getSelectionModel().getSelectedItem().setRow(playlistList.getSelectionModel().getSelectedItem().getRow()-1);
+        playlistsSongs.setVisible(false);
+         playlistsSongs.setVisible(true);
     }
 
     @FXML
     private void rowMinus(ActionEvent event) {
-        model.moveSongUpOnPlaylist(sop.getSelectionModel().getSelectedItem());
+       model.moveSongUpOnPlaylist(sop.getSelectionModel().getSelectedItem());
+     
     }
 
     @FXML

@@ -39,7 +39,7 @@
       <TableView fx:id="playlistList" layoutX="13.0" layoutY="129.0" onMouseClicked="#showPlSongs" prefHeight="392.0" prefWidth="199.0">
          <columns>
             <TableColumn fx:id="playlistName" prefWidth="122.39999389648438" text="Name" />
-            <TableColumn prefWidth="39.200042724609375" text="Songs" />
+            <TableColumn fx:id="playlistsSongs" prefWidth="39.200042724609375" text="Songs" />
             <TableColumn prefWidth="37.60003662109375" text="Time" />
          </columns>
       </TableView>

@@ -12,6 +12,7 @@ package winpamp.be;
 public class Playlist {
     private String Name;
     private int Id;
+    private int Row;
     public Playlist(String name,int id)
     {
         this.Name = name;
@@ -28,4 +29,12 @@ public class Playlist {
      public void setName(String name) {
         this.Name = name;
     }
+     public void setRow(int row)
+     {
+         this.Row = row;
+     }
+     public int getRow()
+     {
+         return Row;
+     }
 }

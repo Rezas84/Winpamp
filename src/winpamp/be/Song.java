@@ -87,7 +87,7 @@ public class Song {
     public String toString() {
        model = MainModel.GetInstance();
         
-        return  model.test(this)+1 + ". " + Name;
+        return  model.test(this)+ 1 + ". " + Name;
     }
 
 }

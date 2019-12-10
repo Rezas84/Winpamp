@@ -114,10 +114,20 @@ public class MainModel {
 
     public void moveSongDownOnPlaylist(Song song) {
         int id = sopList.indexOf(song);
-       Collections.swap(sopList, id, id+1);
+      
+        
+            Collections.swap(sopList, id, id+1);
+      
     }
+    
     public int test(Song song)
     {
         return sopList.indexOf(song);
     }
+    public int getCounter(int gc)
+    {
+        itemcounter = gc + 1;
+        return itemcounter;
+    }
+            
 }

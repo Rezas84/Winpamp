@@ -47,7 +47,7 @@ public class DalController {
         ds.setPortNumber(1433);
         ds.setServerName("10.176.111.31");
     }
-
+     
 
     public Song EditSong(Song song, String name, String artist, String category, String time, String filelocation) throws SQLServerException, SQLException  {
         
@@ -130,9 +130,9 @@ public class DalController {
     }
     
     public List<Song> getPlaylistSongs (String plname) {
-        List<Song> plsongs = new ArrayList();    
+       List<Song> plsongs = new ArrayList();    
          try (Connection con = ds.getConnection()){
-        String sqlStatement = "SELECT * FROM ALLSONGS WHERE Id IN(Select SongId FROM PLAYLIST_SONGS WHERE PlaylistId IN(SELECT PlaylistId FROM ALLPLAYLISTS WHERE Name='"+plname+"')); ";     
+        String sqlStatement = "SELECT * FROM ALLSONGS WHERE Id IN(Select SongId FROM PLAYLIST_SONGS WHERE PlaylistId IN(SELECT PlaylistId FROM ALLPLAYLISTS WHERE Name='"+plname+"')); "; 
          Statement statement = con.createStatement();
             ResultSet rs = statement.executeQuery(sqlStatement);
             while(rs.next())
@@ -145,7 +145,7 @@ public class DalController {
                 String file = rs.getString("Filelocation");
                 int id = rs.getInt("id");
                 Song p = new Song(name,artist,category,time,file,id);
-                p.setRow(rs.getRow());
+                //p.setRow(rs.getRow());
                 plsongs.add(p);
             }
            
@@ -198,6 +198,7 @@ public class DalController {
                 String name = rs.getString("Name");
                 int id = rs.getInt("PlaylistId");
                 Playlist p = new Playlist(name,id);
+                p.setRow(getNumberOfSongs(name));
                 playlists.add(p);
             }
             
@@ -211,5 +212,38 @@ public class DalController {
         
         return playlists;
     }
+     
+     
+     
+      public int getNumberOfSongs (String plname) {
+    //    List<Song> plsongsc = new ArrayList();    
+         int counter = 0;
+         try (Connection con = ds.getConnection()){
+        String sqlStatement = "SELECT * FROM ALLSONGS WHERE Id IN(Select SongId FROM PLAYLIST_SONGS WHERE PlaylistId IN(SELECT PlaylistId FROM ALLPLAYLISTS WHERE Name='"+plname+"')); "; 
+         Statement statement = con.createStatement();
+            ResultSet rs = statement.executeQuery(sqlStatement);
+            while(rs.next())
+            {
+               counter++;
+            }
+           
+        }
+          catch (SQLServerException ex) {
+            Logger.getLogger(DalController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        catch (SQLException ex) {
+            Logger.getLogger(DalController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+         return counter;
+    }
+     
+     
+     
+     
+     
+     
+     
+     
+     
      
 }
