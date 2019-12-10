@@ -22,9 +22,11 @@ public class MainModel {
     private ObservableList<Playlist> playlistList;
     private static MainModel instance;
     private Song msong;
+    private Playlist playlisttodelete;
     private int itemcounter;
     private MainModel()
             { 
+             playlisttodelete = new Playlist("",0);
                 itemcounter = 0;
                msong = new Song("","","","","",0);
             sopList = FXCollections.observableArrayList(dc.getPlaylistSongs("PlaylistRock"));
@@ -130,4 +132,17 @@ public class MainModel {
         return itemcounter;
     }
             
+    public  void setPlaylistToDelete(Playlist playlist)
+    {
+        playlisttodelete = playlist;
+    }
+    public Playlist getPlaylistToDelete()
+    {
+        return playlisttodelete;
+    }
+            
+    public void removefromPlaylists()
+    {
+        playlistList.remove(getPlaylistToDelete());
+    }
 }

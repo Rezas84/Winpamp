@@ -239,7 +239,18 @@ public class DalController {
      
      
      
-     
+     public void deletePlaylist(Playlist playlist) throws SQLException
+     {
+          String sqlStatement = "alter table PLAYLIST_SONGS nocheck constraint all; DELETE FROM ALLPLAYLISTS WHERE PlaylistId=? ;alter table PLAYLIST_SONGS check constraint all; ";
+               
+               
+        try (Connection con = ds.getConnection()){
+          PreparedStatement pstmt = con.prepareStatement(sqlStatement);
+          
+            pstmt.setString(1,"" + playlist.GetId() + "");
+            pstmt.execute();
+        } 
+     }
      
      
      

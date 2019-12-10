@@ -124,6 +124,7 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     private void ShowDelete(ActionEvent event) throws IOException {
+        model.setPlaylistToDelete(playlistList.getSelectionModel().getSelectedItem());
         Parent blah = FXMLLoader.load(getClass().getResource("/winpamp/gui/ConfirmDeletePlaylist.fxml"));
         Scene scene = new Scene(blah);
         Stage SD = new Stage();
