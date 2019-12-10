@@ -25,6 +25,7 @@ import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.Callback;
+import winpamp.be.Playlist;
 import winpamp.be.Song;
 import winpamp.gui.MainModel;
 
@@ -128,23 +129,37 @@ public class DalController {
         
     }
     
-    public void getPlaylistSongs (String plname) {
-        String sqlStatement = "SELECT * FROM ALLSONGS WHERE Id IN(Select SongId FROM PLAYLIST_SONGS WHERE PlaylistId IN(SELECT PlaylistId FROM ALLPLAYLISTS WHERE Name=?)); ";
+    public List<Song> getPlaylistSongs (String plname) {
+        List<Song> plsongs = new ArrayList();    
+         try (Connection con = ds.getConnection()){
+        String sqlStatement = "SELECT * FROM ALLSONGS WHERE Id IN(Select SongId FROM PLAYLIST_SONGS WHERE PlaylistId IN(SELECT PlaylistId FROM ALLPLAYLISTS WHERE Name='"+plname+"')); ";     
+         Statement statement = con.createStatement();
+            ResultSet rs = statement.executeQuery(sqlStatement);
+            while(rs.next())
+            {
                
-               
-        try (Connection con = ds.getConnection()){
-          PreparedStatement pstmt = con.prepareStatement(sqlStatement);
-        
-            pstmt.setString(1,"" + plname + "");
-            pstmt.execute();
-        } catch (SQLServerException ex) {
-             Logger.getLogger(DalController.class.getName()).log(Level.SEVERE, null, ex);
-         } catch (SQLException ex) {
-             Logger.getLogger(DalController.class.getName()).log(Level.SEVERE, null, ex);
-         }
+                String name = rs.getString("name");
+                String artist = rs.getString("artist");
+                String category = rs.getString("category");
+                String time = rs.getString("time");
+                String file = rs.getString("Filelocation");
+                int id = rs.getInt("id");
+                Song p = new Song(name,artist,category,time,file,id);
+                p.setRow(rs.getRow());
+                plsongs.add(p);
+            }
+           
+        }
+          catch (SQLServerException ex) {
+            Logger.getLogger(DalController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        catch (SQLException ex) {
+            Logger.getLogger(DalController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+         return plsongs;
     }
     
-    public void addSongToPlaylist (Song song, String playlistId){
+    public void addSongToPlaylist (Song song, int playlistId) throws SQLException{
         String sqlStatement = "INSERT INTO PLAYLIST_SONGS (PlaylistId, SongId) VALUES(?, ?);";
                
                
@@ -152,30 +167,49 @@ public class DalController {
           PreparedStatement pstmt = con.prepareStatement(sqlStatement);
         
             pstmt.setString(1,"" + playlistId + "");
-            pstmt.setInt(1,song.getId());
+            pstmt.setInt(2,song.getId());
             pstmt.execute();
-        } catch (SQLServerException ex) {
-             Logger.getLogger(DalController.class.getName()).log(Level.SEVERE, null, ex);
-         } catch (SQLException ex) {
-             Logger.getLogger(DalController.class.getName()).log(Level.SEVERE, null, ex);
-         }
+        } 
     }
     
-    public void removeSongFromPlaylist (Song song, String playlistId){
+    public void removeSongFromPlaylist (Song song, int playlistId, int id) throws SQLException{
         String sqlStatement = "DELETE FROM PLAYLIST_SONGS WHERE PlaylistId=? AND SongId=?;";
                
                
         try (Connection con = ds.getConnection()){
           PreparedStatement pstmt = con.prepareStatement(sqlStatement);
-        
+          
             pstmt.setString(1,"" + playlistId + "");
-            pstmt.setInt(1,song.getId());
+            pstmt.setInt(2,id);
             pstmt.execute();
-        } catch (SQLServerException ex) {
-             Logger.getLogger(DalController.class.getName()).log(Level.SEVERE, null, ex);
-         } catch (SQLException ex) {
-             Logger.getLogger(DalController.class.getName()).log(Level.SEVERE, null, ex);
-         }
+        } 
+      
     }    
     
+     public List<Playlist> getAllPlSongs() 
+    { 
+        List<Playlist> playlists = new ArrayList();
+        try (Connection con = ds.getConnection()){
+            String sqlStatement = "SELECT * FROM ALLPLAYLISTS";
+            Statement statement = con.createStatement();
+            ResultSet rs = statement.executeQuery(sqlStatement);
+            while(rs.next())
+            {
+                String name = rs.getString("Name");
+                int id = rs.getInt("PlaylistId");
+                Playlist p = new Playlist(name,id);
+                playlists.add(p);
+            }
+            
+        }
+        catch (SQLServerException ex) {
+            Logger.getLogger(DalController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        catch (SQLException ex) {
+            Logger.getLogger(DalController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return playlists;
+    }
+     
 }

@@ -5,6 +5,8 @@
  */
 package winpamp.be;
 
+import winpamp.gui.MainModel;
+
 /**
  *
  * @author filip
@@ -15,8 +17,10 @@ public class Song {
     private String Category;
     private String Time;
     private String File;
+    
     private int Id;
-
+    private int Row;
+    private MainModel model;
     public Song(String name,String artist,String category,String time,String file,int id) {
         this.Name = name;
         this.Artist = artist;
@@ -36,8 +40,14 @@ public class Song {
     {
         return Id;
     }
-    
-    
+    public void setRow(int row)
+    {
+        this.Row = row;
+    }
+    public int getRow()
+    {
+        return Row;
+    }
     
     
     public String getFile()
@@ -73,4 +83,11 @@ public class Song {
     {
         return Artist;
     }
+    @Override
+    public String toString() {
+       model = MainModel.GetInstance();
+        
+        return  model.test(this)+1 + ". " + Name;
+    }
+
 }

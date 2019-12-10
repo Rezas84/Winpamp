@@ -26,6 +26,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -37,6 +38,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
+import winpamp.be.Playlist;
 import winpamp.be.Song;
 import winpamp.bll.WinpampManager;
 import winpamp.dal.DalController;
@@ -59,6 +61,20 @@ public class FXMLDocumentController implements Initializable {
     private Label musiclabel;
      @FXML
     private Slider volumeBar;
+    @FXML
+    private TableView<Playlist> playlistList;
+    @FXML
+    private TableColumn<Playlist, String> playlistName;
+    @FXML
+    private ListView<Song> sop;
+    @FXML
+    private Button addtop;
+    @FXML
+    private Button deletespl;
+    @FXML
+    private Button rowm;
+    @FXML
+    private Button rowp;
     
     public FXMLDocumentController()
     {
@@ -68,12 +84,12 @@ public class FXMLDocumentController implements Initializable {
     
     
     
-    DalController dl = new DalController();
+    
      private boolean clicked = true;
      private boolean newSong;
      private boolean playing = true;
     WinpampManager wm = new WinpampManager();
-  
+    DalController dl = new DalController();
     NewEditSongController nesc = new NewEditSongController();
 
     @FXML
@@ -91,8 +107,6 @@ public class FXMLDocumentController implements Initializable {
     private Button EditSong;
     @FXML
     private TableView<Song> songsList;
-    @FXML
-    private Button testb;
     @FXML
     private TableColumn<Song, String> TitleC;
     @FXML
@@ -127,29 +141,19 @@ public class FXMLDocumentController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         update();
-//        TitleC.setCellValueFactory(
-//                new PropertyValueFactory("name"));
-//        ArtistC.setCellValueFactory(
-//            new PropertyValueFactory("artist"));
-//       CategoryC.setCellValueFactory(
-//            new PropertyValueFactory("category"));
-//       TimeC.setCellValueFactory(
-//            new PropertyValueFactory("time"));
-//       songsList.setItems(WinpampManager.wm.GetsList());
-       
-       
-     //  if(!mList.equals(wm.GetsList()))
-     //  {
-     // songsList.setItems(wm.GetsList());  experimental auto update
-     //  mList = wm.GetsList();
-     //  }
+
           }    
 
     public void update()
     {
+        playlistList.getItems().clear();
         songsList.getItems().clear();
+        
+         
+       playlistName.setCellValueFactory(
+            new PropertyValueFactory("name"));
          TitleC.setCellValueFactory(
-                new PropertyValueFactory("name"));
+            new PropertyValueFactory("name"));
         ArtistC.setCellValueFactory(
             new PropertyValueFactory("artist"));
        CategoryC.setCellValueFactory(
@@ -157,24 +161,11 @@ public class FXMLDocumentController implements Initializable {
        TimeC.setCellValueFactory(
             new PropertyValueFactory("time"));
        songsList.setItems(model.getsongs());
+    playlistList.setItems(model.getplsongs());
+             
     }
-    
-    
-    
-    
-    @FXML
-    private Song getselectedid(ActionEvent event)
-    {
-       Song song = songsList.getSelectionModel().getSelectedItem();
-        return song;
-    }
-    
-    
-    
-    
-    
-    
-    
+   
+  
     @FXML
     private void SongNew(ActionEvent event)  {
         newSong = true;
@@ -206,16 +197,10 @@ public class FXMLDocumentController implements Initializable {
             Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-
-    }
-
-
-
-//    @FXML
-//    private void changeVolume(MouseEvent event) {
-//        player.setVolume(volumeBar.getValue() / 100);
-//    }
-
+   }
+   
+   
+   
     @FXML
     private void deleteSong(ActionEvent event) throws SQLException {
        Song song = songsList.getSelectionModel().getSelectedItem();
@@ -273,5 +258,38 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private void changeVolume(MouseEvent event) {
         mediaPlayer.setVolume(volumeBar.getValue() / 100);
+    }
+
+    @FXML
+    private void showPlSongs(MouseEvent event) {
+        sop.setItems(model.getSopList(playlistList.getSelectionModel().getSelectedItem().getName()));
+    
+    }
+
+    @FXML
+    private void addToPl(ActionEvent event) throws SQLException {
+        dl.addSongToPlaylist(songsList.getSelectionModel().getSelectedItem(),playlistList.getSelectionModel().getSelectedItem().GetId());
+        sop.setItems(model.getSopList(playlistList.getSelectionModel().getSelectedItem().getName()));  
+    }
+
+    @FXML
+    private void deleteFromSOP(ActionEvent event) throws SQLException {
+        int id = sop.getSelectionModel().getSelectedItem().getId();
+        dl.removeSongFromPlaylist(songsList.getSelectionModel().getSelectedItem(),playlistList.getSelectionModel().getSelectedItem().GetId(),id);
+         sop.setItems(model.getSopList(playlistList.getSelectionModel().getSelectedItem().getName())); 
+    }
+
+    @FXML
+    private void rowMinus(ActionEvent event) {
+        model.moveSongUpOnPlaylist(sop.getSelectionModel().getSelectedItem());
+    }
+
+    @FXML
+    private void rowPlus(ActionEvent event) {
+         model.moveSongDownOnPlaylist(sop.getSelectionModel().getSelectedItem());
+    }
+
+    private void indexor(MouseEvent event) {
+        model.setItemcounter(sop.getSelectionModel().getSelectedIndex());
     }
 }
