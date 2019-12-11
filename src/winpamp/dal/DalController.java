@@ -116,13 +116,14 @@ public class DalController {
     }
 
     public void DeleteSong(Song song) throws SQLException {
-       String sqlStatement = "alter table PLAYLIST_SONGS nocheck constraint all; DELETE FROM ALLSONGS WHERE id=?; alter table PLAYLIST_SONGS check constraint all;";
+       String sqlStatement = "DELETE FROM PLAYLIST_SONGS WHERE SongId=? ; DELETE FROM ALLSONGS WHERE id=?; ";
                
                
         try (Connection con = ds.getConnection()){
           PreparedStatement pstmt = con.prepareStatement(sqlStatement);
         
             pstmt.setInt(1,song.getId());
+            pstmt.setInt(2,song.getId());
             pstmt.execute();
         }
         
@@ -240,13 +241,14 @@ public class DalController {
      
      public void deletePlaylist(Playlist playlist) throws SQLException
      {
-          String sqlStatement = "alter table PLAYLIST_SONGS nocheck constraint all; DELETE FROM ALLPLAYLISTS WHERE PlaylistId=? ;alter table PLAYLIST_SONGS check constraint all; ";
+          String sqlStatement = "DELETE FROM PLAYLIST_SONGS WHERE PlaylistId=? ; DELETE FROM ALLPLAYLISTS WHERE PlaylistId=? ;";
                
                
         try (Connection con = ds.getConnection()){
           PreparedStatement pstmt = con.prepareStatement(sqlStatement);
           
             pstmt.setString(1,"" + playlist.GetId() + "");
+            pstmt.setString(2,"" + playlist.GetId() + "");
             pstmt.execute();
         } 
      }
