@@ -36,16 +36,16 @@ public class EditPlaylistInterfaceController implements Initializable {
      */
  public EditPlaylistInterfaceController()
  {
-      model = MainModel.GetInstance();
+      model = MainModel.GetInstance(); //ensure we are working with the same instance of the MainModel, as all the other controllers.
  }
     @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        playlistName.setText(model.getPlaylistToDelete().getName());
+    public void initialize(URL url, ResourceBundle rb) { //When initializing...
+        playlistName.setText(model.getPlaylistToDelete().getName()); //fetch and set the name of the playlist we are editing.
        
     }    
 
     @FXML
-    private void cancelView(ActionEvent event) {
+    private void cancelView(ActionEvent event) { //exit the window when pressing the cancel button.
          Stage stage = (Stage)cancel.getScene().getWindow();
     
     stage.close();

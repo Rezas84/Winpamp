@@ -45,7 +45,7 @@ import winpamp.dal.DalController;
 
 /**
  *
- * @author filip
+ * @author filip, Cecilia, Reza and Francesco.
  *//////
 public class FXMLDocumentController implements Initializable {
     private MainModel model;
@@ -80,7 +80,7 @@ public class FXMLDocumentController implements Initializable {
     
     public FXMLDocumentController()
     {
-        model = MainModel.GetInstance();
+        model = MainModel.GetInstance(); //Ensure that we are always working with the right instance  of MainModel, which is the same for all the COntrollers.
     }
     
     
@@ -123,7 +123,7 @@ public class FXMLDocumentController implements Initializable {
    
 
     @FXML
-    private void ShowDelete(ActionEvent event) throws IOException {
+    private void ShowDelete(ActionEvent event) throws IOException { //Method to show the Confirm Delete playlist.
         model.setPlaylistToDelete(playlistList.getSelectionModel().getSelectedItem());
         Parent blah = FXMLLoader.load(getClass().getResource("/winpamp/gui/ConfirmDeletePlaylist.fxml"));
         Scene scene = new Scene(blah);
@@ -133,7 +133,7 @@ public class FXMLDocumentController implements Initializable {
     }
 
     @FXML
-    private void ShowNewEdit(ActionEvent event) throws IOException {
+    private void ShowNewEdit(ActionEvent event) throws IOException { //MEthod to show the EditPLaylist.
         model.setPlaylistToDelete(playlistList.getSelectionModel().getSelectedItem());
         Parent blahh = FXMLLoader.load(getClass().getResource("/winpamp/gui/EditPlaylistInterface.fxml"));
         Scene scenee = new Scene(blahh);
@@ -148,7 +148,7 @@ public class FXMLDocumentController implements Initializable {
 
           }    
 
-    public void update()
+    public void update() //Updates all the info in the main view.
     {
         playlistList.getItems().clear();
         songsList.getItems().clear();
@@ -172,16 +172,16 @@ public class FXMLDocumentController implements Initializable {
    
   
     @FXML
-    private void SongNew(ActionEvent event)  {
+    private void SongNew(ActionEvent event)  { //Method for adding a new song. A boolean gets passed to the wm instance of the Winpamp Manager.
         newSong = true;
-        WinpampManager.wm.setSongBoolean(newSong);
-        SongShowNewEdit();
+        WinpampManager.wm.setSongBoolean(newSong); //Adds a boolean so that we know if we are adding a new song, or editing an existing one.
+        SongShowNewEdit(); //Run the method to open a new window.
     }
     
     @FXML
-    private void SongEdit(ActionEvent event)  {
+    private void SongEdit(ActionEvent event)  { //Method for editing an existing song, sends a boolean to the wm instance of the Winpamp Manager.
         newSong = false;
-        WinpampManager.wm.setSongBoolean(newSong);
+        WinpampManager.wm.setSongBoolean(newSong); //Passes the boolean as false to know that we are editing a song, not adding it.
        Song selectedSong = songsList.getSelectionModel().getSelectedItem();
        model.edit(selectedSong);
         SongShowNewEdit();
@@ -190,7 +190,7 @@ public class FXMLDocumentController implements Initializable {
     }
     
    
-   private void SongShowNewEdit() {
+   private void SongShowNewEdit() { //Method to load the new/edit song window.
      
         try {
             Parent blahhh = FXMLLoader.load(getClass().getResource("/winpamp/gui/NewEditSong.fxml"));
@@ -207,43 +207,43 @@ public class FXMLDocumentController implements Initializable {
    
    
     @FXML
-    private void deleteSong(ActionEvent event) throws SQLException {
+    private void deleteSong(ActionEvent event) throws SQLException { //Method to delete a song.
        Song song = songsList.getSelectionModel().getSelectedItem();
        dl.DeleteSong(song);
        model.getsongs().remove(song);
        }
 
     @FXML
-    private void closeStage(ActionEvent event) {
+    private void closeStage(ActionEvent event) { //Method to close the main window.
         Stage stage = (Stage) close.getScene().getWindow();
     stage.close();
     }
 
     @FXML
-    private void search(ActionEvent event) {
+    private void search(ActionEvent event) { //method for seaching or filtering the songs.
         if(clicked)
-        { songsList.setItems(wm.search(model.getsongs(),searcherfield.getText()));
+        { songsList.setItems(wm.search(model.getsongs(),searcherfield.getText()));//Search the MainModel which stores the lists, for the text entered into the field. DIsplay only those songs.
         searcher.setText("");
         clicked = false;}
         else
-        {songsList.setItems(model.getsongs());
+        {songsList.setItems(model.getsongs()); //Just display all the songs.
         searcher.setText("Search");
         searcherfield.clear();
         clicked = true;}
         
         
     }
-     private static MediaPlayer mediaPlayer;
+     private static MediaPlayer mediaPlayer; //Creating a media player to make the play related buttons work.
      
     @FXML
     private void playSong(MouseEvent event) {
-     File f = new File(songsList.getSelectionModel().getSelectedItem().getFile());
+     File f = new File(songsList.getSelectionModel().getSelectedItem().getFile());//Select the file from the song.
      URI u = f.toURI();
      String s = u.toString();
      Media media = new Media(s);
-     mediaPlayer = new MediaPlayer(media); 
+     mediaPlayer = new MediaPlayer(media); //Sends teh song to the mediaplayer.
       
-        if (playing == false)
+        if (playing == false) //Sets what to do it the player is not currently playing a song.
         {
             mediaPlayer.stop();
             File img = new File ("Play.png");
@@ -252,32 +252,32 @@ public class FXMLDocumentController implements Initializable {
             playing = true;
         }
             
-        else{
+        else{ //Sets the information when a song is playing.
            mediaPlayer.play();
            File img = new File ("Pause.png");
            playId.setImage(new Image(img.toURI().toString()));
-           musiclabel.setText(songsList.getSelectionModel().getSelectedItem().getName());
+           musiclabel.setText(songsList.getSelectionModel().getSelectedItem().getName()); //DIsplays the name of the current song.
            playing = false;
     }
         }
     @FXML
-    private void changeVolume(MouseEvent event) {
+    private void changeVolume(MouseEvent event) { //MEthod to change the volume of the media player.
         mediaPlayer.setVolume(volumeBar.getValue() / 100);
     }
 
     @FXML
-    private void showPlSongs(MouseEvent event) {
-        sop.setItems(model.getSopList(playlistList.getSelectionModel().getSelectedItem().getName()));
+    private void showPlSongs(MouseEvent event) { //Displays the songs associated with e certian playlist, based on the playlist's name.
+        sop.setItems(model.getSopList(playlistList.getSelectionModel().getSelectedItem().getName())); //Runs the method from our instance of the Main Model.
     
     }
 
     @FXML
-    private void addToPl(ActionEvent event) throws SQLException {
-        dl.addSongToPlaylist(songsList.getSelectionModel().getSelectedItem(),playlistList.getSelectionModel().getSelectedItem().GetId());
-        sop.setItems(model.getSopList(playlistList.getSelectionModel().getSelectedItem().getName())); 
-        playlistList.getSelectionModel().getSelectedItem().setRow(playlistList.getSelectionModel().getSelectedItem().getRow()+1);
-        playlistsSongs.setVisible(false);
-         playlistsSongs.setVisible(true);
+    private void addToPl(ActionEvent event) throws SQLException { //MEthod to add song to a playlist.
+        dl.addSongToPlaylist(songsList.getSelectionModel().getSelectedItem(),playlistList.getSelectionModel().getSelectedItem().GetId()); //Passes the song and playlist to our dal.
+        sop.setItems(model.getSopList(playlistList.getSelectionModel().getSelectedItem().getName())); //passes the song to add to the playlist to our Main MOdel, to keep our internal list updated.
+        playlistList.getSelectionModel().getSelectedItem().setRow(playlistList.getSelectionModel().getSelectedItem().getRow()+1);//Gives the song added an index within the playlsit.
+        playlistsSongs.setVisible(false);//Just to update the number of songs in the playlist.
+         playlistsSongs.setVisible(true);//Just to update the number of songs in the playlist.
         
            
     }
@@ -285,30 +285,30 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private void deleteFromSOP(ActionEvent event) throws SQLException {
         int id = sop.getSelectionModel().getSelectedItem().getId();
-        dl.removeSongFromPlaylist(songsList.getSelectionModel().getSelectedItem(),playlistList.getSelectionModel().getSelectedItem().GetId(),id);
-         sop.setItems(model.getSopList(playlistList.getSelectionModel().getSelectedItem().getName())); 
-          playlistList.getSelectionModel().getSelectedItem().setRow(playlistList.getSelectionModel().getSelectedItem().getRow()-1);
-        playlistsSongs.setVisible(false);
-         playlistsSongs.setVisible(true);
+        dl.removeSongFromPlaylist(songsList.getSelectionModel().getSelectedItem(),playlistList.getSelectionModel().getSelectedItem().GetId(),id);//passes the song to remove and the playlist to remove from to our dal.
+         sop.setItems(model.getSopList(playlistList.getSelectionModel().getSelectedItem().getName())); //Deletes the song from the LIST on the playlist, which we store in the MainModel
+          playlistList.getSelectionModel().getSelectedItem().setRow(playlistList.getSelectionModel().getSelectedItem().getRow()-1); //Removes one from the total number of songs in the playlist.
+        playlistsSongs.setVisible(false); //Just to update the number of songs in the playlist.
+         playlistsSongs.setVisible(true); //Just to update the number of songs in the playlist.
     }
 
     @FXML
-    private void rowMinus(ActionEvent event) {
-       model.moveSongUpOnPlaylist(sop.getSelectionModel().getSelectedItem());
+    private void rowMinus(ActionEvent event) {//The method to move our song UP on the playlilst.
+       model.moveSongUpOnPlaylist(sop.getSelectionModel().getSelectedItem());//pass the info to our MainModel.
      
     }
 
     @FXML
-    private void rowPlus(ActionEvent event) {
-         model.moveSongDownOnPlaylist(sop.getSelectionModel().getSelectedItem());
+    private void rowPlus(ActionEvent event) { //THe method to move our song DOWN on playlist.
+         model.moveSongDownOnPlaylist(sop.getSelectionModel().getSelectedItem()); //Passes the info to our Main MOdel.
     }
 
-    private void indexor(MouseEvent event) {
-        model.setItemcounter(sop.getSelectionModel().getSelectedIndex());
+    private void indexor(MouseEvent event) { //TO update our amount of songs in the playlist.
+        model.setItemcounter(sop.getSelectionModel().getSelectedIndex()); //Passes the info to our Main Model.
     }
 
     @FXML
-    private void ShowNew(ActionEvent event) throws IOException {
+    private void ShowNew(ActionEvent event) throws IOException {//Method to display the window for adding a new song.
           Parent blahh = FXMLLoader.load(getClass().getResource("/winpamp/gui/NewPlaylistInterface.fxml"));
         Scene scenee = new Scene(blahh);
         Stage SNE = new Stage();
