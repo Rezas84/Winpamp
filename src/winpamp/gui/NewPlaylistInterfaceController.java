@@ -6,6 +6,7 @@
 package winpamp.gui;
 
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -17,30 +18,39 @@ import javafx.stage.Stage;
 /**
  * FXML Controller class
  *
- * @author cille
+ * @author filip
  */
-public class EditPlaylistInterfaceController implements Initializable {
- private MainModel model;
+public class NewPlaylistInterfaceController implements Initializable {
+
     @FXML
     private TextField playlistName;
     @FXML
     private Button cancel;
+    private MainModel model; 
     /**
      * Initializes the controller class.
      */
- public EditPlaylistInterfaceController()
- {
-      model = MainModel.GetInstance();
- }
+    public NewPlaylistInterfaceController()
+    {
+         model = MainModel.GetInstance();
+
+    }
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        playlistName.setText(model.getPlaylistToDelete().getName());
-       
+        // TODO
     }    
 
     @FXML
     private void cancelView(ActionEvent event) {
          Stage stage = (Stage)cancel.getScene().getWindow();
+    
+    stage.close();
+    }
+
+    @FXML
+    private void newPl(ActionEvent event) throws SQLException {
+        model.addPlaylist(playlistName.getText());
+        Stage stage = (Stage)cancel.getScene().getWindow();
     
     stage.close();
     }
