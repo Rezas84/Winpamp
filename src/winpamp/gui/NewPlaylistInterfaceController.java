@@ -18,7 +18,7 @@ import javafx.stage.Stage;
 /**
  * FXML Controller class
  *
- * @author filip
+ * @author filip, Cecilia, Reza and Frncesco.
  */
 public class NewPlaylistInterfaceController implements Initializable {
 
@@ -32,16 +32,16 @@ public class NewPlaylistInterfaceController implements Initializable {
      */
     public NewPlaylistInterfaceController()
     {
-         model = MainModel.GetInstance();
+         model = MainModel.GetInstance(); //ensure that we are working in the right instance of the MainModel, the same as all the other controllers.
 
     }
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        // Nothing needed here.
     }    
 
     @FXML
-    private void cancelView(ActionEvent event) {
+    private void cancelView(ActionEvent event) {//When clicking cancel, close the window.
          Stage stage = (Stage)cancel.getScene().getWindow();
     
     stage.close();
@@ -49,10 +49,10 @@ public class NewPlaylistInterfaceController implements Initializable {
 
     @FXML
     private void newPl(ActionEvent event) throws SQLException {
-        model.addPlaylist(playlistName.getText());
-        Stage stage = (Stage)cancel.getScene().getWindow();
+        model.addPlaylist(playlistName.getText());//adds the playlist to our MainModel, which in turns adds it to the DAL.
+        Stage stage = (Stage)cancel.getScene().getWindow();//Then select the window to close.
     
-    stage.close();
+    stage.close();//close the window.
     }
     
 }
