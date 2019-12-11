@@ -26,13 +26,15 @@ public class MainModel {
     private Playlist playlisttodelete;
     private int itemcounter;
     private MainModel()
-            { //initialize all the empty lists, and 
-             playlisttodelete = new Playlist("",0);
-                itemcounter = 0;
-               msong = new Song("","","","","",0);
-            sopList = FXCollections.observableArrayList(dc.getPlaylistSongs("PlaylistRock")); //initialized with randomPlaylist
-            songList = FXCollections.observableArrayList(dc.getAllSongs());
-            playlistList = FXCollections.observableArrayList(dc.getAllPlSongs());
+
+            { //initialize all the empty lists, and
+             playlisttodelete = new Playlist("",0,0);
+             itemcounter = 0;
+             msong = new Song("","","","","",0);
+             sopList = FXCollections.observableArrayList(dc.getPlaylistSongs("PlaylistRock"));
+             songList = FXCollections.observableArrayList(dc.getAllSongs());
+             playlistList = FXCollections.observableArrayList(dc.getAllPlSongs());
+
             
             }
     DalController dc = new DalController();
@@ -151,7 +153,7 @@ public class MainModel {
     {
         playlistList.add(dc.newPlaylist(name));//adds the playslist to the MAinModel list, and passes the information to our DAL.
     }
-            
+           
     
     
     
