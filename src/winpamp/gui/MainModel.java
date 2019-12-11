@@ -27,12 +27,12 @@ public class MainModel {
     private int itemcounter;
     private MainModel()
             { 
-             playlisttodelete = new Playlist("",0);
-                itemcounter = 0;
-               msong = new Song("","","","","",0);
-            sopList = FXCollections.observableArrayList(dc.getPlaylistSongs("PlaylistRock"));
-            songList = FXCollections.observableArrayList(dc.getAllSongs());
-            playlistList = FXCollections.observableArrayList(dc.getAllPlSongs());
+             playlisttodelete = new Playlist("",0,0);
+             itemcounter = 0;
+             msong = new Song("","","","","",0);
+             sopList = FXCollections.observableArrayList(dc.getPlaylistSongs("PlaylistRock"));
+             songList = FXCollections.observableArrayList(dc.getAllSongs());
+             playlistList = FXCollections.observableArrayList(dc.getAllPlSongs());
             
             }
     DalController dc = new DalController();
@@ -151,7 +151,7 @@ public class MainModel {
     {
         playlistList.add(dc.newPlaylist(name));
     }
-            
+           
     
     
     

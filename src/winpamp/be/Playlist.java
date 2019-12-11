@@ -13,10 +13,11 @@ public class Playlist {
     private String Name;
     private int Id;
     private int Row;
-    public Playlist(String name,int id)
+    public Playlist(String name,int id,int row)
     {
         this.Name = name;
         this.Id = id;
+        this.Row = row;
     }
     public String getName()
     {

@@ -46,6 +46,9 @@ public class ConfirmDeletePlaylistController implements Initializable {
     private void deletePlaylist(ActionEvent event) throws SQLException {
         dc.deletePlaylist(model.getPlaylistToDelete());
         model.removefromPlaylists();
+        Stage stage = (Stage)cancel.getScene().getWindow();
+            stage.close();
+
     }
 
     @FXML

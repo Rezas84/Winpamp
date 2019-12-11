@@ -197,7 +197,7 @@ public class DalController {
             {
                 String name = rs.getString("Name");
                 int id = rs.getInt("PlaylistId");
-                Playlist p = new Playlist(name,id);
+                Playlist p = new Playlist(name,id,0);
                 p.setRow(getNumberOfSongs(name));
                 playlists.add(p);
             }
@@ -265,10 +265,24 @@ public class DalController {
             ResultSet rs = pstmt.getGeneratedKeys();
             rs.next();
             int id = rs.getInt(1);
-             return new Playlist(name,id);
+             return new Playlist(name,id,0);
         
                                                }
      
      }
      
+ public Playlist EditPlaylist(Playlist playlist, String name, int row) throws SQLServerException, SQLException  {
+        
+      
+        
+        try(Connection con = ds.getConnection()){
+            String sqlIf = "UPDATE ALLPLAYLISTS SET name = ? WHERE PlaylistId=?";
+            PreparedStatement pstmt = con.prepareStatement(sqlIf);
+            pstmt.setString(1, "" + name + "");
+            pstmt.setInt(2,playlist.GetId());
+            pstmt.execute();
+        return new Playlist(name,playlist.GetId(),row);
+    }
+    }
+ 
 }
