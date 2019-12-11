@@ -4,12 +4,11 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
-<AnchorPane id="AnchorPane" prefHeight="121.0" prefWidth="389.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/11.0.1" fx:controller="winpamp.gui.ConfirmDeletePlaylistController">
+<AnchorPane id="AnchorPane" prefHeight="121.0" prefWidth="389.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="winpamp.gui.ConfirmDeletePlaylistController">
    <children>
-      <Button layoutX="147.0" layoutY="81.0" mnemonicParsing="false" text="Confirm Delete" />
-      <Button layoutX="272.0" layoutY="81.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="96.0" text="Cancel" />
+      <Button fx:id="cd" layoutX="147.0" layoutY="81.0" mnemonicParsing="false" onAction="#deletePlaylist" text="Confirm Delete" />
+      <Button fx:id="cancel" layoutX="272.0" layoutY="81.0" mnemonicParsing="false" onAction="#cancelview" prefHeight="25.0" prefWidth="96.0" text="Cancel" />
       <Label layoutX="22.0" layoutY="14.0" text="Are you sure you want to delete the following playlist?" />
-      <Label layoutX="22.0" layoutY="38.0" prefHeight="17.0" prefWidth="337.0" text="Playlist name" />
+      <Label fx:id="plname" layoutX="22.0" layoutY="38.0" prefHeight="17.0" prefWidth="337.0" text="Playlist name" />
    </children>
 </AnchorPane>

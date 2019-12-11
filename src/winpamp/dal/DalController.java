@@ -25,6 +25,7 @@ import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.Callback;
+import winpamp.be.Playlist;
 import winpamp.be.Song;
 import winpamp.gui.MainModel;
 
@@ -46,7 +47,7 @@ public class DalController {
         ds.setPortNumber(1433);
         ds.setServerName("10.176.111.31");
     }
-
+     
 
     public Song EditSong(Song song, String name, String artist, String category, String time, String filelocation) throws SQLServerException, SQLException  {
         
@@ -67,7 +68,6 @@ public class DalController {
     }
     
     public Song NewSong(String name, String artist, String category, String time, String filelocation) throws SQLException {
-        System.out.println("NewSong working");
    
         try(Connection con = ds.getConnection()){
             String sqlIf = "INSERT INTO ALLSONGS (Name, Artist, Category, Time, Filelocation) VALUES (?, ?, ?, ?, ?);";
@@ -116,35 +116,50 @@ public class DalController {
     }
 
     public void DeleteSong(Song song) throws SQLException {
-       String sqlStatement = "alter table PLAYLIST_SONGS nocheck constraint all; DELETE FROM ALLSONGS WHERE id=?; alter table PLAYLIST_SONGS check constraint all;";
+       String sqlStatement = "DELETE FROM PLAYLIST_SONGS WHERE SongId=? ; DELETE FROM ALLSONGS WHERE id=?; ";
                
                
         try (Connection con = ds.getConnection()){
           PreparedStatement pstmt = con.prepareStatement(sqlStatement);
         
             pstmt.setInt(1,song.getId());
+            pstmt.setInt(2,song.getId());
             pstmt.execute();
         }
         
     }
     
-    public void getPlaylistSongs (String plname) {
-        String sqlStatement = "SELECT * FROM ALLSONGS WHERE Id IN(Select SongId FROM PLAYLIST_SONGS WHERE PlaylistId IN(SELECT PlaylistId FROM ALLPLAYLISTS WHERE Name=?)); ";
+    public List<Song> getPlaylistSongs (String plname) {
+       List<Song> plsongs = new ArrayList();    
+         try (Connection con = ds.getConnection()){
+        String sqlStatement = "SELECT * FROM ALLSONGS WHERE Id IN(Select SongId FROM PLAYLIST_SONGS WHERE PlaylistId IN(SELECT PlaylistId FROM ALLPLAYLISTS WHERE Name='"+plname+"')); "; 
+         Statement statement = con.createStatement();
+            ResultSet rs = statement.executeQuery(sqlStatement);
+            while(rs.next())
+            {
                
-               
-        try (Connection con = ds.getConnection()){
-          PreparedStatement pstmt = con.prepareStatement(sqlStatement);
-        
-            pstmt.setString(1,"" + plname + "");
-            pstmt.execute();
-        } catch (SQLServerException ex) {
-             Logger.getLogger(DalController.class.getName()).log(Level.SEVERE, null, ex);
-         } catch (SQLException ex) {
-             Logger.getLogger(DalController.class.getName()).log(Level.SEVERE, null, ex);
-         }
+                String name = rs.getString("name");
+                String artist = rs.getString("artist");
+                String category = rs.getString("category");
+                String time = rs.getString("time");
+                String file = rs.getString("Filelocation");
+                int id = rs.getInt("id");
+                Song p = new Song(name,artist,category,time,file,id);
+                //p.setRow(rs.getRow());
+                plsongs.add(p);
+            }
+           
+        }
+          catch (SQLServerException ex) {
+            Logger.getLogger(DalController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        catch (SQLException ex) {
+            Logger.getLogger(DalController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+         return plsongs;
     }
     
-    public void addSongToPlaylist (Song song, String playlistId){
+    public void addSongToPlaylist (Song song, int playlistId) throws SQLException{
         String sqlStatement = "INSERT INTO PLAYLIST_SONGS (PlaylistId, SongId) VALUES(?, ?);";
                
                
@@ -152,30 +167,122 @@ public class DalController {
           PreparedStatement pstmt = con.prepareStatement(sqlStatement);
         
             pstmt.setString(1,"" + playlistId + "");
-            pstmt.setInt(1,song.getId());
+            pstmt.setInt(2,song.getId());
             pstmt.execute();
-        } catch (SQLServerException ex) {
-             Logger.getLogger(DalController.class.getName()).log(Level.SEVERE, null, ex);
-         } catch (SQLException ex) {
-             Logger.getLogger(DalController.class.getName()).log(Level.SEVERE, null, ex);
-         }
+        } 
     }
     
-    public void removeSongFromPlaylist (Song song, String playlistId){
+    public void removeSongFromPlaylist (Song song, int playlistId, int id) throws SQLException{
         String sqlStatement = "DELETE FROM PLAYLIST_SONGS WHERE PlaylistId=? AND SongId=?;";
                
                
         try (Connection con = ds.getConnection()){
           PreparedStatement pstmt = con.prepareStatement(sqlStatement);
-        
+          
             pstmt.setString(1,"" + playlistId + "");
-            pstmt.setInt(1,song.getId());
+            pstmt.setInt(2,id);
             pstmt.execute();
-        } catch (SQLServerException ex) {
-             Logger.getLogger(DalController.class.getName()).log(Level.SEVERE, null, ex);
-         } catch (SQLException ex) {
-             Logger.getLogger(DalController.class.getName()).log(Level.SEVERE, null, ex);
-         }
+        } 
+      
     }    
     
+     public List<Playlist> getAllPlSongs() 
+    { 
+        List<Playlist> playlists = new ArrayList();
+        try (Connection con = ds.getConnection()){
+            String sqlStatement = "SELECT * FROM ALLPLAYLISTS";
+            Statement statement = con.createStatement();
+            ResultSet rs = statement.executeQuery(sqlStatement);
+            while(rs.next())
+            {
+                String name = rs.getString("Name");
+                int id = rs.getInt("PlaylistId");
+                Playlist p = new Playlist(name,id,0);
+                p.setRow(getNumberOfSongs(name));
+                playlists.add(p);
+            }
+            
+        }
+        catch (SQLServerException ex) {
+            Logger.getLogger(DalController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        catch (SQLException ex) {
+            Logger.getLogger(DalController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return playlists;
+    }
+     
+     
+     
+      public int getNumberOfSongs (String plname) {
+    //    List<Song> plsongsc = new ArrayList();    
+         int counter = 0;
+         try (Connection con = ds.getConnection()){
+        String sqlStatement = "SELECT * FROM ALLSONGS WHERE Id IN(Select SongId FROM PLAYLIST_SONGS WHERE PlaylistId IN(SELECT PlaylistId FROM ALLPLAYLISTS WHERE Name='"+plname+"')); "; 
+         Statement statement = con.createStatement();
+            ResultSet rs = statement.executeQuery(sqlStatement);
+            while(rs.next())
+            {
+               counter++;
+            }
+           
+        }
+          catch (SQLServerException ex) {
+            Logger.getLogger(DalController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        catch (SQLException ex) {
+            Logger.getLogger(DalController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+         return counter;
+    }
+     
+     
+     
+     public void deletePlaylist(Playlist playlist) throws SQLException
+     {
+          String sqlStatement = "DELETE FROM PLAYLIST_SONGS WHERE PlaylistId=? ; DELETE FROM ALLPLAYLISTS WHERE PlaylistId=? ;";
+               
+               
+        try (Connection con = ds.getConnection()){
+          PreparedStatement pstmt = con.prepareStatement(sqlStatement);
+          
+            pstmt.setString(1,"" + playlist.GetId() + "");
+            pstmt.setString(2,"" + playlist.GetId() + "");
+            pstmt.execute();
+        } 
+     }
+     
+     
+     public Playlist newPlaylist(String name) throws SQLException
+     {     
+       try(Connection con = ds.getConnection()){
+            String sqlIf = "INSERT INTO ALLPLAYLISTS (Name) VALUES (?);";
+            PreparedStatement pstmt = con.prepareStatement(sqlIf,Statement.RETURN_GENERATED_KEYS);
+            pstmt.setString(1, "" + name + "");
+          
+            pstmt.execute();
+            ResultSet rs = pstmt.getGeneratedKeys();
+            rs.next();
+            int id = rs.getInt(1);
+             return new Playlist(name,id,0);
+        
+                                               }
+     
+     }
+     
+ public Playlist EditPlaylist(Playlist playlist, String name, int row) throws SQLServerException, SQLException  {
+        
+      
+        
+        try(Connection con = ds.getConnection()){
+            String sqlIf = "UPDATE ALLPLAYLISTS SET name = ? WHERE PlaylistId=?";
+            PreparedStatement pstmt = con.prepareStatement(sqlIf);
+            pstmt.setString(1, "" + name + "");
+            pstmt.setInt(2,playlist.GetId());
+            pstmt.execute();
+        return new Playlist(name,playlist.GetId(),row);
+    }
+    }
+ 
 }
