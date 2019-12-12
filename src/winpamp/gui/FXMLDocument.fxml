@@ -53,7 +53,7 @@
       <Button fx:id="rowm" layoutX="228.0" layoutY="538.0" mnemonicParsing="false" onAction="#rowMinus" text="/\" />
       <Button fx:id="rowp" layoutX="264.0" layoutY="538.0" mnemonicParsing="false" onAction="#rowPlus" text="\\/" />
       <Button fx:id="deletespl" layoutX="315.0" layoutY="538.0" mnemonicParsing="false" onAction="#deleteFromSOP" text="Delete" />
-      <Label fx:id="musiclabel" layoutX="227.0" layoutY="44.0" prefHeight="35.0" prefWidth="331.0" text="nothing Is Playing" textFill="#e31212">
+      <Label fx:id="musiclabel" layoutX="227.0" layoutY="44.0" prefHeight="35.0" prefWidth="331.0" text="nothing Is Playing" textFill="#1b0bcd">
          <font>
             <Font size="22.0" />
          </font></Label>
