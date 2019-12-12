@@ -49,6 +49,7 @@ import winpamp.dal.DalController;
  *//////
 public class FXMLDocumentController implements Initializable {
     private MainModel model;
+    private int songnumber = 0;
     @FXML
     private Button deleteSongButton;
     @FXML
@@ -77,6 +78,10 @@ public class FXMLDocumentController implements Initializable {
     private Button rowp;
     @FXML
     private TableColumn<Playlist, Integer> playlistsSongs;
+    @FXML
+    private ImageView next;
+    @FXML
+    private ImageView prev;
     
     public FXMLDocumentController()
     {
@@ -90,6 +95,8 @@ public class FXMLDocumentController implements Initializable {
      private boolean clicked = true;
      private boolean newSong;
      private boolean playing = true;
+     private boolean singleOr = false;
+     private int size = 0;
     WinpampManager wm = new WinpampManager();
     DalController dl = new DalController();
     NewEditSongController nesc = new NewEditSongController();
@@ -144,6 +151,7 @@ public class FXMLDocumentController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        volumeBar.setValue(100);
         update();
 
           }    
@@ -237,29 +245,11 @@ public class FXMLDocumentController implements Initializable {
      
     @FXML
     private void playSong(MouseEvent event) {
-     File f = new File(songsList.getSelectionModel().getSelectedItem().getFile());//Select the file from the song.
-     URI u = f.toURI();
-     String s = u.toString();
-     Media media = new Media(s);
-     mediaPlayer = new MediaPlayer(media); //Sends teh song to the mediaplayer.
-      
-        if (playing == false) //Sets what to do it the player is not currently playing a song.
-        {
-            mediaPlayer.stop();
-            File img = new File ("Play.png");
-            playId.setImage(new Image(img.toURI().toString()));
-            musiclabel.setText("nothing is playing");
-            playing = true;
+        play();
         }
-            
-        else{ //Sets the information when a song is playing.
-           mediaPlayer.play();
-           File img = new File ("Pause.png");
-           playId.setImage(new Image(img.toURI().toString()));
-           musiclabel.setText(songsList.getSelectionModel().getSelectedItem().getName()); //DIsplays the name of the current song.
-           playing = false;
-    }
-        }
+    
+    
+    
     @FXML
     private void changeVolume(MouseEvent event) { //MEthod to change the volume of the media player.
         mediaPlayer.setVolume(volumeBar.getValue() / 100);
@@ -268,7 +258,7 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private void showPlSongs(MouseEvent event) { //Displays the songs associated with e certian playlist, based on the playlist's name.
         sop.setItems(model.getSopList(playlistList.getSelectionModel().getSelectedItem().getName())); //Runs the method from our instance of the Main Model.
-    
+        songnumber = 0;
     }
 
     @FXML
@@ -315,5 +305,105 @@ public class FXMLDocumentController implements Initializable {
         SNE.setScene(scenee);
         SNE.show();
     }
-  
-}
+
+    @FXML
+    private void singleSongBol(ActionEvent event) {
+        if(singleOr == false)
+            singleOr = true;
+        else
+            singleOr = false;
+        System.out.println(singleOr);
+    }
+
+    @FXML
+    private void nextSong(MouseEvent event) {
+        anothersong();
+    }
+
+    private void anothersong() {
+        if(songnumber < size-1)
+        {
+      
+        play();
+        songnumber++;
+        play();
+            
+        }
+        else
+        {
+            System.out.println("End of playlist");
+        }
+    }
+  private void play()
+  {
+      if(singleOr == true){
+     File f = new File(songsList.getSelectionModel().getSelectedItem().getFile());//Select the file from the song.
+     URI u = f.toURI();
+     String s = u.toString();
+     Media media = new Media(s);
+     mediaPlayer = new MediaPlayer(media); //Sends teh song to the mediaplayer.
+      
+        if (playing == false) //Sets what to do it the player is not currently playing a song.
+        {
+            mediaPlayer.stop();
+            File img = new File ("Play.png");
+            playId.setImage(new Image(img.toURI().toString()));
+            musiclabel.setText("nothing is playing");
+            playing = true;
+        }
+            
+        else{ //Sets the information when a song is playing.
+           mediaPlayer.play();
+           File img = new File ("Pause.png");
+           playId.setImage(new Image(img.toURI().toString()));
+           musiclabel.setText(songsList.getSelectionModel().getSelectedItem().getName()); //DIsplays the name of the current song.
+           playing = false;
+    }}
+        else
+        {
+        File f = new File(model.sopListReturnerForPlay().get(songnumber).getFile());
+        if(size==0)
+        size = model.sopListReturnerForPlay().size();
+        URI u = f.toURI();
+        String s = u.toString();
+        Media media = new Media(s);
+        mediaPlayer = new MediaPlayer(media); //Sends teh song to the mediaplayer.
+         if (playing == false) //Sets what to do it the player is not currently playing a song.
+        {
+            mediaPlayer.stop();
+            File img = new File ("Play.png");
+            playId.setImage(new Image(img.toURI().toString()));
+            musiclabel.setText("nothing is playing");
+            playing = true;
+        }
+            
+        else{ //Sets the information when a song is playing.
+           mediaPlayer.play();
+           File img = new File ("Pause.png");
+           playId.setImage(new Image(img.toURI().toString()));
+           musiclabel.setText(model.sopListReturnerForPlay().get(songnumber).getName()); //DIsplays the name of the current song.
+           playing = false;
+         }
+         mediaPlayer.setOnEndOfMedia(new Runnable()
+            {
+                @Override
+                public void run()
+                 {
+                     
+                anothersong();
+                 
+                 }});
+        }
+  }
+     
+
+    @FXML
+    private void previousSong(MouseEvent event) {
+        if(songnumber > 0)
+            songnumber--;
+        play();
+        play();
+    }
+  }
+      
+

@@ -154,7 +154,10 @@ public class MainModel {
         playlistList.add(dc.newPlaylist(name));//adds the playslist to the MAinModel list, and passes the information to our DAL.
     }
            
-    
+    public ObservableList<Song> sopListReturnerForPlay()
+    {    
+        return sopList;
+    }
     
     
 }
