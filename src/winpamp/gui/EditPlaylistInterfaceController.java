@@ -64,6 +64,8 @@ public class EditPlaylistInterfaceController implements Initializable {
     @FXML
     private void saveEdited(ActionEvent event) throws SQLException {
            edit();
+            Stage stage = (Stage)cancel.getScene().getWindow();
+            stage.close();
     }
     
             
