@@ -14,37 +14,42 @@ import winpamp.dal.DalController;
 
 /**
  *
- * @author filip
+ * @author filip, Cecilia, Reza and Francesco
  */
 public class WinpampManager {
     
-    public static WinpampManager wm = new WinpampManager();
+    public static WinpampManager wm = new WinpampManager();//When first created create a specific instance of itsself that all the other classes can use.
     
     
-    private boolean booleanSong;
+    private boolean booleanSong; //Create a boolean for whether we are editing or creating a song.
     
-    private DalController dalController = new DalController();
+    private DalController dalController = new DalController(); //Create the dal controller
 
     
     
     
-    
+    //Method to pass the info from the gui to the dal, when editing a song.
     public Song EditSong(Song song, String songN, String songA, String songC, String songT, String songF) throws SQLException {
       return dalController.EditSong(song, songN, songA, songC, songT, songF);
     }
     
+     //Method to pass the info from the gui to the dal, when creating a new song.
     public Song NewSong(String songN, String songA, String songC, String songT, String songF) throws SQLException {
-        //dalController.NewSong(songN, songA, songC, songT, songF);
         return (dalController.NewSong(songN, songA, songC, songT, songF));
     }
     
+    
+    //Method to alter the boolean.
     public void setSongBoolean (boolean songBoolean) {
         booleanSong = songBoolean;
     }
     
+    
+    //Method to get the boolean
     public boolean getSongBoolean () {
         return booleanSong;
     }
+    
      @FXML
       public ObservableList<Song> search(ObservableList<Song> searchBase, String query) {
           

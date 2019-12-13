@@ -13,10 +13,10 @@ import javafx.stage.Stage;
 
 /**
  *
- * @author filip and Cecilia
+ * @author filip, Cecilia, Reza and Francesco
  */
 public class Winpamp extends Application {
-    
+    //WHen started load our main window.
     @Override
     public void start(Stage stage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("/winpamp/gui/FXMLDocument.fxml"));
